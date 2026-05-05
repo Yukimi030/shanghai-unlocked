@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shanghai Unlocked — Your Local Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       oklch(0.97 0.005 85);
+    --cream-card:  oklch(0.99 0.003 85);
+    --gold:        oklch(0.68 0.14 78);
+    --gold-deep:   oklch(0.60 0.13 75);
+    --gold-dim:    oklch(0.72 0.08 72);
+    --terracotta:  oklch(0.55 0.16 35);
+    --jade:        oklch(0.58 0.09 185);
+    --text:        oklch(0.25 0.02 75);
+    --text-soft:   oklch(0.42 0.01 75);
+    --text-muted:  oklch(0.56 0.01 75);
+    --border:      oklch(0.88 0.01 80);
+    --border-gold: oklch(0.78 0.10 78);
+    --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+    --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+    --shadow-lg:   0 12px 48px oklch(0.2 0.01 75 / 0.10);
+    --radius:      12px;
+    --radius-sm:   6px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 24px; z-index: 200;
+    background: var(--gold-deep); color: #fff; padding: 8px 16px;
+    border-radius: var(--radius-sm); font-weight: 500;
+  }
+  .skip-link:focus { top: 12px; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .hero-canvas { display: none; }
+  }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: all 0.35s ease; }
+  .nav.scrolled { background: oklch(0.97 0.005 85 / 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav.scrolled .nav-logo { color: var(--gold-deep); }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+  /* Hero */
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 80px 24px; background: linear-gradient(175deg, oklch(0.96 0.008 85) 0%, oklch(0.94 0.012 82) 40%, oklch(0.92 0.015 78) 100%); }
+  .hero-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; width: 100%; height: 100%; display: block; }
+  .hero-skyline { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; pointer-events: none; opacity: 0.14; width: 100%; height: auto; display: block; }
+  .hero-content { position: relative; z-index: 3; text-align: center; max-width: 720px; }
+  .hero-eyebrow { font-family: 'Caveat', cursive; font-size: 22px; font-weight: 400; color: var(--gold-deep); margin-bottom: 16px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(46px, 7.5vw, 84px); font-weight: 700; line-height: 1.12; color: var(--text); letter-spacing: -0.005em; }
+  .hero h1 .gold { color: var(--gold); font-style: italic; }
+  .hero-tagline { font-size: clamp(17px, 2.2vw, 21px); color: var(--text-soft); margin-top: 24px; line-height: 1.6; max-width: 580px; margin-left: auto; margin-right: auto; }
+  .hero-cta { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary { display: inline-block; padding: 14px 34px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; transition: all 0.3s ease; }
+  .btn-primary { background: var(--gold); color: #fff; box-shadow: 0 4px 18px oklch(0.68 0.14 78 / 0.32); }
+  .btn-primary:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 6px 24px oklch(0.68 0.14 78 / 0.40); }
+  .btn-secondary { background: transparent; color: var(--text-soft); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--gold-dim); color: var(--gold-deep); }
+
+  /* Sections */
+  .section { padding: 88px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-family: 'Caveat', cursive; font-size: 26px; color: var(--gold-deep); margin-bottom: 8px; opacity: 0.78; text-align: center; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 44px); font-weight: 700; color: var(--text); text-align: center; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .section-desc { text-align: center; color: var(--text-soft); font-size: 16px; max-width: 540px; margin: 0 auto 48px; line-height: 1.65; }
+
+  /* Discover Shanghai */
+  .discover { background: var(--cream-card); padding: 96px 24px; }
+  .discover-inner { max-width: 1140px; margin: 0 auto; }
+
+  /* Asymmetric grid: 3-column, variable row spans */
+  .spot-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; align-items: start; margin-bottom: 28px; }
+  .spot-grid:last-child { margin-bottom: 0; }
+  .spot-card {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border: 1px solid var(--border); background: var(--cream);
+    cursor: pointer;
+  }
+  .spot-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+  /* Sizes */
+  .spot-card.col-2 { grid-column: span 2; }
+  .spot-card.col-3 { grid-column: span 3; }
+  .spot-card.row-2 { grid-row: span 2; }
+
+  /* Hand-drawn cover layer */
+  .spot-cover {
+    width: 100%; aspect-ratio: 3/2; position: relative; overflow: hidden;
+    background: linear-gradient(160deg, oklch(0.97 0.006 85) 0%, oklch(0.94 0.012 82) 100%);
+    transition: opacity 0.45s ease;
+  }
+  .spot-card:hover .spot-cover { opacity: 0; }
+  .spot-cover svg { width: 100%; height: 100%; display: block; }
+  .spot-cover img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  
+  /* Photo layer (underneath, revealed on hover) */
+  .spot-photo {
+    position: absolute; inset: 0;
+    background: oklch(0.92 0.01 80);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .spot-photo-placeholder {
+    text-align: center; color: var(--text-muted); font-size: 13px;
+    padding: 16px;
+  }
+
+  /* Body */
+  .spot-body { padding: 18px 20px; position: relative; z-index: 2; }
+  .spot-body h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .spot-body p { font-size: 13px; color: var(--text-soft); line-height: 1.5; margin-bottom: 8px; }
+  .spot-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .spot-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500; letter-spacing: 0.02em; }
+  .spot-tag.time { background: oklch(0.90 0.03 78); color: var(--gold-deep); }
+  .spot-tag.ticket { background: oklch(0.92 0.03 35 / 0.18); color: var(--terracotta); }
+  .spot-tag.free { background: oklch(0.92 0.02 185 / 0.20); color: var(--jade); }
+
+  /* Card with cover + photo swap */
+  .spot-card.stack { overflow: visible; }
+  .spot-card.stack .spot-photo { position: absolute; inset: 0; z-index: 1; }
+  .spot-card.stack .spot-cover { position: relative; z-index: 2; }
+  .spot-card.stack .spot-body { position: relative; z-index: 3; background: var(--cream); }
+
+  /* Brand Story */
+  .brand-story { padding: 100px 24px 88px; background: linear-gradient(180deg, var(--cream) 0%, var(--cream-card) 50%, var(--cream) 100%); }
+  .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1000px; margin: 0 auto; }
+  .brand-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.8vw, 40px); font-weight: 700; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .brand-text h2 i { color: var(--gold); }
+  .brand-text p { color: var(--text-soft); font-size: 15px; line-height: 1.75; margin-bottom: 16px; }
+  .brand-photo-wrap { position: relative; }
+  .brand-photo { width: 100%; border-radius: var(--radius); overflow: hidden; position: relative; }
+  .brand-photo img { width: 100%; display: block; border-radius: var(--radius); }
+  .brand-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, oklch(0.68 0.14 78 / 0.28) 0%, oklch(0.55 0.16 35 / 0.12) 100%); border-radius: var(--radius); pointer-events: none; }
+  .brand-caption { font-family: 'Caveat', cursive; font-size: 22px; color: var(--terracotta); text-align: center; margin-top: 14px; opacity: 0.78; }
+
+  /* CTA Strip */
+  .cta-strip { padding: 80px 24px; background: linear-gradient(175deg, oklch(0.94 0.012 82) 0%, oklch(0.92 0.015 78) 100%); text-align: center; }
+  .cta-strip h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 700; margin-bottom: 12px; }
+  .cta-strip p { color: var(--text-soft); font-size: 16px; margin-bottom: 28px; }
+
+  /* Lightbox */
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: oklch(0.15 0.01 75 / 0.94); align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox-img-wrap { position: relative; display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 80vh; }
+  .lightbox img { max-width: 90vw; max-height: 80vh; object-fit: contain; border-radius: var(--radius); box-shadow: var(--shadow-lg); user-select: none; -webkit-user-drag: none; transition: opacity 0.25s ease; }
+  .lightbox-close { position: absolute; top: 24px; right: 32px; font-size: 36px; color: oklch(1 0 0 / 0.8); cursor: pointer; z-index: 10; background: none; border: none; line-height: 1; transition: color 0.2s; }
+  .lightbox-close:hover { color: #fff; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: oklch(1 0 0 / 0.12); border: none; color: oklch(1 0 0 / 0.7); font-size: 36px; width: 48px; height: 72px; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+  .lightbox-nav:hover { background: oklch(1 0 0 / 0.22); color: #fff; }
+  .lightbox-nav.prev { left: 16px; }
+  .lightbox-nav.next { right: 16px; }
+  .lightbox-counter { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); color: oklch(1 0 0 / 0.55); font-size: 13px; letter-spacing: 0.04em; font-weight: 450; }
+  .lightbox-spot-label { position: absolute; top: -36px; left: 50%; transform: translateX(-50%); color: oklch(1 0 0 / 0.65); font-family: 'Caveat', cursive; font-size: 24px; white-space: nowrap; }
+
+  /* Footer */
+  .footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+  .footer-copy { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .brand-grid { grid-template-columns: 1fr; gap: 32px; }
+    .spot-card.col-2, .spot-card.col-3 { grid-column: span 1; }
+    .spot-card.row-2 { grid-row: span 1; }
+    .spot-cover { aspect-ratio: 3/1; }
+    .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .hero-content { padding: 0 16px; }
+    .hero-cta { flex-direction: column; align-items: center; }
+    .spot-grid { grid-template-columns: 1fr; }
+    .section { padding: 56px 20px; }
+    .discover { padding: 64px 20px; }
+    .brand-story { padding: 64px 20px; }
+  }
+
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="#discover">Discover</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="plan-your-day.html">Plan Your Day</a></li>
+      <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- Hero -->
+<section class="hero" aria-label="Hero">
+  <canvas class="hero-canvas" id="particleCanvas" aria-hidden="true"></canvas>
+  <img class="hero-skyline" src="skyline.png" alt="" aria-hidden="true">
+  <div class="hero-content fade-up">
+    <div class="hero-eyebrow">Your private companion in Shanghai</div>
+    <h1><span class="gold">Shanghai</span><br>Unlocked</h1>
+    <p class="hero-tagline">An English-speaking local companion for a day in Shanghai that actually feels like Shanghai.</p>
+    <div class="hero-cta">
+      <a href="plan-your-day.html" class="btn-primary">Plan Your Day</a>
+      <a href="#discover" class="btn-secondary">Explore Shanghai</a>
+    </div>
+  </div>
+</section>
+
+<!-- Discover Shanghai -->
+<section class="discover" id="discover" aria-label="Discover Shanghai">
+  <div class="discover-inner">
+    <div class="section-label">Discover</div>
+    <h2 class="section-title">Shanghai, one spot at a time</h2>
+    <p class="section-desc">Every place we go is somewhere we genuinely love. Browse the spots below, then build your perfect day.</p>
+
+    <!-- Row 1: 3+3 -->
+    <div class="spot-grid">
+      <div class="spot-card stack col-3 fade-up" data-gallery='["flipbook/法租界.jpeg"]' data-gallery-label="French Concession">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — tree-lined street</div></div>
+        <div class="spot-cover"><img src="flipbook/法租界.jpeg" alt="French Concession" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>French Concession Walk</h3>
+          <p>Tree-lined lanes, Art Deco mansions, hidden courtyards. Jing'an Temple to Wukang to Anfu — Shanghai's most walkable neighborhood.</p>
+          <div class="spot-tags"><span class="spot-tag time">3.5 hrs</span><span class="spot-tag free">Free</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-3 fade-up" data-gallery='["flipbook/豫园.jpeg"]' data-gallery-label="Yu Garden">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Yu Garden pavilion</div></div>
+        <div class="spot-cover"><img src="flipbook/豫园.jpeg" alt="Yu Garden" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Yu Garden (豫园)</h3>
+          <p>Ming Dynasty rockeries, pavilions, and the bustling bazaar. A 400-year-old oasis in the middle of the city.</p>
+          <div class="spot-tags"><span class="spot-tag time">2 hrs</span><span class="spot-tag ticket">¥30–40</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: 3+3 -->
+    <div class="spot-grid">
+      <div class="spot-card stack col-3 fade-up" data-gallery='["flipbook/龙华西岸.jpg"]' data-gallery-label="Longhua Temple">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Longhua pagoda</div></div>
+        <div class="spot-cover"><img src="flipbook/龙华西岸.jpg" alt="Longhua Temple" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Longhua Temple &amp; West Bund</h3>
+          <p>Shanghai's oldest temple (1,700 years) beside a 40-story pagoda, plus West Bund contemporary art and riverside walks.</p>
+          <div class="spot-tags"><span class="spot-tag time">3.5 hrs</span><span class="spot-tag ticket">Temple ~¥10</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-3 fade-up" data-gallery='["flipbook/外滩.jpg"]' data-gallery-label="The Bund">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Bund colonial buildings</div></div>
+        <div class="spot-cover"><img src="flipbook/外滩.jpg" alt="The Bund" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Nanjing Road &rarr; The Bund</h3>
+          <p>Historic architecture along Nanjing West, then the iconic skyline walk. Timed for golden hour.</p>
+          <div class="spot-tags"><span class="spot-tag time">2 hrs</span><span class="spot-tag free">Free</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: 2+2+2 -->
+    <div class="spot-grid">
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/仿品市场.jpg"]' data-gallery-label="Fake Market">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — market stalls</div></div>
+        <div class="spot-cover"><img src="flipbook/仿品市场.jpg" alt="Fake Market" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Fake Market (仿品市场)</h3>
+          <p>Shanghai's famous bargaining arena. Bags, watches, tailoring — bring your negotiating face.</p>
+          <div class="spot-tags"><span class="spot-tag time">1.5 hrs</span><span class="spot-tag free">Free entry</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/上海博物馆_副本.jpg"]' data-gallery-label="Shanghai Museum">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — museum</div></div>
+        <div class="spot-cover"><img src="flipbook/上海博物馆_副本.jpg" alt="Museum" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Shanghai Museum</h3>
+          <p>World-class Chinese art and artifacts. Ancient bronzes, calligraphy, ceramics — indoors, free.</p>
+          <div class="spot-tags"><span class="spot-tag time">2 hrs</span><span class="spot-tag free">Free</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/上海之巅.jpg"]' data-gallery-label="Shanghai Tower">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Shanghai Tower</div></div>
+        <div class="spot-cover"><img src="flipbook/上海之巅.jpg" alt="Shanghai Tower" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Shanghai Tower (上海之巅)</h3>
+          <p>China's tallest building. 632 meters up, the city spreads out beneath you like a map.</p>
+          <div class="spot-tags"><span class="spot-tag time">1.5 hrs</span><span class="spot-tag ticket">~¥180</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: 2+2+1+1 -->
+    <div class="spot-grid">
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/上生新所.jpg"]' data-gallery-label="Columbia Circle">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Columbia Circle pool</div></div>
+        <div class="spot-cover"><img src="flipbook/上生新所.jpg" alt="Columbia Circle" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Columbia Circle (上生新所)</h3>
+          <p>A 1920s expat club turned design district. Tiffany-blue pool, Hudec villa, Tsutaya Books, and great lunch spots.</p>
+          <div class="spot-tags"><span class="spot-tag time">2 hrs</span><span class="spot-tag free">Free</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/玉佛寺.jpeg"]' data-gallery-label="Jade Buddha Temple">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — temple</div></div>
+        <div class="spot-cover"><img src="flipbook/玉佛寺.jpeg" alt="Jade Buddha" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Jade Buddha Temple (玉佛寺)</h3>
+          <p>A living monastery housing two jade Buddha statues from Myanmar. Incense, monks, quiet courtyards.</p>
+          <div class="spot-tags"><span class="spot-tag time">1.5 hrs</span><span class="spot-tag ticket">¥20</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-1 fade-up" data-gallery='["flipbook/人民广场2.jpeg"]' data-gallery-label="Marriage Market">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — umbrellas</div></div>
+        <div class="spot-cover"><img src="flipbook/人民广场2.jpeg" alt="Marriage Market" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Marriage Market (相亲角)</h3>
+          <p>Weekend afternoons at People's Park. Umbrellas, printed resumes — one of Shanghai's most human spectacles.</p>
+          <div class="spot-tags"><span class="spot-tag time">1.5 hrs</span><span class="spot-tag free">Weekends only</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-1 fade-up" data-gallery='["flipbook/宣传画博物馆.jpg"]' data-gallery-label="Propaganda Poster">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — posters</div></div>
+        <div class="spot-cover"><img src="flipbook/宣传画博物馆.jpg" alt="Propaganda Poster" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Propaganda Poster Art Centre</h3>
+          <p>A hidden-gem museum of original propaganda posters (1920s to 1990s). Hard to find — but we know the way.</p>
+          <div class="spot-tags"><span class="spot-tag time">1.5 hrs</span><span class="spot-tag ticket">~¥20–30</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day Trips -->
+    <h3 style="text-align:center;margin-top:56px;margin-bottom:8px;font-family:'Caveat',cursive;font-size:28px;color:var(--terracotta);opacity:0.75;">Day Trips</h3>
+    <p style="text-align:center;color:var(--text-soft);font-size:15px;margin-bottom:32px;">Full-day escapes from the city. Private car + companion, 8 to 10 hours.</p>
+
+    <div class="spot-grid">
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/蟠龙天地.jpeg"]' data-gallery-label="Panlong Tiandi">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Panlong canals</div></div>
+        <div class="spot-cover"><img src="flipbook/蟠龙天地.jpeg" alt="Panlong Tiandi" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Panlong Tiandi (蟠龙天地)</h3>
+          <p>A 1,400-year-old water town reborn. Canals, rowing boats, contemporary art, riverside dining.</p>
+          <div class="spot-tags"><span class="spot-tag time">~8 hrs</span><span class="spot-tag free">Free</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/朱家角.jpg"]' data-gallery-label="Zhujiajiao">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Zhujiajiao bridge</div></div>
+        <div class="spot-cover"><img src="flipbook/朱家角.jpg" alt="Zhujiajiao" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Zhujiajiao (朱家角)</h3>
+          <p>The classic Jiangnan water town. Stone bridges, narrow lanes, boat rides through ancient canals.</p>
+          <div class="spot-tags"><span class="spot-tag time">~8 hrs</span><span class="spot-tag ticket">Boat extra</span></div>
+        </div>
+      </div>
+
+      <div class="spot-card stack col-2 fade-up" data-gallery='["flipbook/苏州4.jpg"]' data-gallery-label="Suzhou">
+        <div class="spot-photo" aria-hidden="true"><div class="spot-photo-placeholder">Photo — Suzhou garden</div></div>
+        <div class="spot-cover"><img src="flipbook/苏州4.jpg" alt="Suzhou" loading="lazy"></div>
+        <div class="spot-body">
+          <h3>Suzhou (苏州)</h3>
+          <p>UNESCO gardens, Grand Canal, silk culture. A full day in classical China, just an hour and a half away.</p>
+          <div class="spot-tags"><span class="spot-tag time">~10 hrs</span><span class="spot-tag ticket">Garden tickets extra</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Brand Story -->
+<section class="brand-story" id="story" aria-label="Our story">
+  <div class="section-label">Who We Are</div>
+  <div class="brand-grid" style="margin-top:16px;">
+    <div class="brand-text fade-up">
+      <h2>Not a tour guide.<br><i>Your local best friend.</i></h2>
+      <p>We were those friends. The ones picking up visiting friends at the airport, setting up their Alipay, explaining why Google Maps doesn't work here, and ordering at restaurants where the menu has no English. We did it because we'd been there ourselves.</p>
+      <p>Between us, we've studied in Bristol, London, Poland, and Israel. We've worked in Warsaw and traveled across Western and Eastern Europe. We've been the foreigner more times than we can count — relying on the kindness of locals who turned a confusing city into a place that felt possible.</p>
+      <p>Over time, the friends brought friends. Every single one of them loved China — the food, the streets, the energy. But the friction was real. A lost hour here, a missed reservation there. Small things that added up to: <em>this could have been smoother.</em></p>
+      <p>That's why Shanghai Unlocked exists. A private car, a companion who actually knows the city, and a day that bends around what <em>you</em> care about. Not a fixed route. Not a bus schedule. Just Shanghai, with someone who knows the key.</p>
+    </div>
+    <div class="brand-photo-wrap fade-up">
+      <div class="brand-photo"><img src="about-us.jpg" alt="Your Shanghai Unlocked companions — Feier and Tang, relaxed and smiling by the riverside"></div>
+      <div class="brand-caption">Your friends in Shanghai</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <h2>Ready to unlock Shanghai?</h2>
+  <p>Browse our curated routes or build your own day. One click away.</p>
+  <a href="plan-your-day.html" class="btn-primary">Plan Your Day</a>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <svg class="footer-sketch" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10 Q 50 0 100 10 T 190 10" fill="none" stroke="oklch(0.68 0.14 78 / 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="#discover">Discover</a>
+    <a href="#story">Our Story</a>
+    <a href="plan-your-day.html">Plan Your Day</a>
+    <a href="taste-toast.html">Taste &amp; Toast</a>
+  </div>
+  <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);">
+    <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
+    <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
+    <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+  </div>
+  <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
+</footer>
+
+<script>
+// Canvas particles
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let particles = [], w, h, animId;
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    w = canvas.width = r.width * (window.devicePixelRatio || 1);
+    h = canvas.height = r.height * (window.devicePixelRatio || 1);
+  }
+
+  function init() {
+    particles = [];
+    const count = Math.min(45, Math.floor((w * h) / 18000));
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w, y: Math.random() * h,
+        r: 1.2 + Math.random() * 2.8,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -(0.15 + Math.random() * 0.6),
+        opacity: 0.25 + Math.random() * 0.45,
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10) p.x = w + 10; if (p.x > w + 10) p.x = -10;
+      if (p.y < -10) p.y = h + 10; if (p.y > h + 10) p.y = -10;
+      p.pulse += 0.012;
+      const alpha = p.opacity + Math.sin(p.pulse) * 0.12;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'oklch(0.72 0.13 82 / ' + Math.max(0.05, alpha) + ')';
+      ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'oklch(0.72 0.13 82 / ' + Math.max(0.01, alpha * 0.22) + ')';
+      ctx.fill();
+    }
+  }
+
+  function loop() {
+    if (prefersReduced) { init(); draw(); return; }
+    draw(); animId = requestAnimationFrame(loop);
+  }
+
+  resize(); init();
+  requestAnimationFrame(() => requestAnimationFrame(() => { resize(); init(); loop(); }));
+
+  window.addEventListener('resize', () => { resize(); init(); });
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+    if (e.matches) { cancelAnimationFrame(animId); draw(); }
+    else { loop(); }
+  });
+})();
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile nav toggle
+document.querySelector('.nav-toggle').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
+// Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Lightbox — gallery with swipe
+(function() {
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightboxImg');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbSpotLabel = document.getElementById('lbSpotLabel');
+  const btnPrev = lb.querySelector('.lightbox-nav.prev');
+  const btnNext = lb.querySelector('.lightbox-nav.next');
+  const imgWrap = lb.querySelector('.lightbox-img-wrap');
+
+  let gallery = [];
+  let currentIdx = 0;
+
+  function showImage(idx) {
+    if (!gallery.length) return;
+    currentIdx = (idx + gallery.length) % gallery.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = gallery[currentIdx];
+      lbImg.style.opacity = '1';
+      lbCounter.textContent = (currentIdx + 1) + ' / ' + gallery.length;
+    }, 120);
+  }
+
+  function openGallery(images, label) {
+    gallery = images;
+    currentIdx = 0;
+    lbImg.src = gallery[0];
+    lbCounter.textContent = '1 / ' + gallery.length;
+    lbSpotLabel.textContent = label || '';
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGallery() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click to all spot cards
+  document.querySelectorAll('.spot-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      const raw = card.getAttribute('data-gallery');
+      if (!raw) return;
+      const images = JSON.parse(raw);
+      const label = card.getAttribute('data-gallery-label') || '';
+      openGallery(images, label);
+    });
+  });
+
+  btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIdx - 1); });
+  btnNext.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIdx + 1); });
+
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeGallery(); });
+  lb.querySelector('.lightbox-close').addEventListener('click', (e) => { e.stopPropagation(); closeGallery(); });
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeGallery();
+    if (e.key === 'ArrowLeft') showImage(currentIdx - 1);
+    if (e.key === 'ArrowRight') showImage(currentIdx + 1);
+  });
+
+  // Swipe
+  let touchStartX = 0, touchStartY = 0;
+  imgWrap.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  imgWrap.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      showImage(currentIdx + (dx < 0 ? 1 : -1));
+    }
+  });
+})();
+</script>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav prev" aria-label="Previous image">&#8249;</button>
+  <div class="lightbox-img-wrap">
+    <div class="lightbox-spot-label" id="lbSpotLabel"></div>
+    <img src="" alt="" id="lightboxImg">
+    <div class="lightbox-counter" id="lbCounter"></div>
+  </div>
+  <button class="lightbox-nav next" aria-label="Next image">&#8250;</button>
+</div>
+</body>
+</html>
