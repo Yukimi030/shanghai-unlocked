@@ -245,6 +245,7 @@
       <li><a href="index.html#story">Our Story</a></li>
       <li><a href="plan-your-day.html" class="active">Plan Your Day</a></li>
       <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="book-now.html">Book Now</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
   </div>
@@ -404,7 +405,7 @@
       <div class="car-info" id="carInfo"></div>
       <h3 id="priceDisplay"></h3>
       <p class="price-note" id="priceNote"></p>
-      <button class="sticky-cta" id="screenshotBtn" style="margin-top:16px;">Screenshot &amp; Send to Us</button>
+      <a href="book-now.html" class="sticky-cta" style="margin-top:16px;text-decoration:none;display:inline-block;">Book Now &rarr;</a>
     </div>
   </div>
 </div>
@@ -425,8 +426,9 @@
     <ul class="modal-spot-list" id="modalSpotList"></ul>
     <div class="modal-total" id="modalTotal"></div>
     <div class="modal-note" id="modalNote"></div>
-    <p style="text-align:center;color:var(--text-soft);font-size:13px;margin-bottom:16px;">Screenshot this and send it to us:<br><a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--gold-deep);">shanghaiunlocked@gmail.com</a> &middot; <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--gold-deep);">Instagram</a> &middot; <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--gold-deep);">TikTok</a><br>We will confirm within 24 hours.</p>
+    <p style="text-align:center;color:var(--text-soft);font-size:13px;margin-bottom:16px;">Happy with your plan? Ready to lock it in.<br>We'll confirm within 24 hours.</p>
     <div class="modal-actions">
+      <a href="book-now.html" class="sticky-cta" style="text-decoration:none;">Book Now &rarr;</a>
       <button class="sticky-cta" id="modalCopyBtn">Copy as Text</button>
       <button class="btn-close" id="modalClose">Close</button>
     </div>
@@ -443,6 +445,9 @@
     <a href="index.html#story">Our Story</a>
     <a href="plan-your-day.html">Plan Your Day</a>
     <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="book-now.html">Book Now</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Booking Terms</a>
   </div>
   <div style="margin-bottom:12px;font-size:13px;">
     <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
@@ -492,7 +497,6 @@ const builderGrid = document.getElementById('builderGrid');
 const stickyPeople = document.getElementById('stickyPeople');
 const stickyCar = document.getElementById('stickyCar');
 const stickyPrice = document.getElementById('stickyPrice');
-const screenshotBtn = document.getElementById('screenshotBtn');
 const builderSummary = document.getElementById('builderSummary');
 const bsTime = document.getElementById('bsTime');
 const bsTimeBar = document.getElementById('bsTimeBar');
@@ -660,7 +664,6 @@ function openModal() {
   summaryModal.classList.add('open');
 }
 
-screenshotBtn.addEventListener('click', openModal);
 bsViewSummary.addEventListener('click', openModal);
 
 document.getElementById('modalClose').addEventListener('click', () => summaryModal.classList.remove('open'));

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Now — Shanghai Unlocked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       oklch(0.97 0.005 85);
+    --cream-card:  oklch(0.99 0.003 85);
+    --gold:        oklch(0.68 0.14 78);
+    --gold-deep:   oklch(0.60 0.13 75);
+    --gold-dim:    oklch(0.72 0.08 72);
+    --terracotta:  oklch(0.55 0.16 35);
+    --jade:        oklch(0.58 0.09 185);
+    --text:        oklch(0.25 0.02 75);
+    --text-soft:   oklch(0.42 0.01 75);
+    --text-muted:  oklch(0.56 0.01 75);
+    --border:      oklch(0.88 0.01 80);
+    --border-gold: oklch(0.78 0.10 78);
+    --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+    --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+    --shadow-lg:   0 12px 48px oklch(0.2 0.01 75 / 0.10);
+    --radius:      12px;
+    --radius-sm:   6px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 24px; z-index: 200;
+    background: var(--gold-deep); color: #fff; padding: 8px 16px;
+    border-radius: var(--radius-sm); font-weight: 500;
+  }
+  .skip-link:focus { top: 12px; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: all 0.35s ease; }
+  .nav.scrolled { background: oklch(0.97 0.005 85 / 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav.scrolled .nav-logo { color: var(--gold-deep); }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+  /* Page Header */
+  .page-header { padding: 120px 24px 56px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.008 85) 0%, oklch(0.94 0.012 82) 100%); }
+  .page-header .section-label { font-family: 'Caveat', cursive; font-size: 26px; color: var(--gold-deep); margin-bottom: 8px; opacity: 0.78; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .page-header .subtitle { font-size: 16px; color: var(--text-soft); margin-top: 12px; max-width: 540px; margin-left: auto; margin-right: auto; }
+
+  /* Section */
+  .section { padding: 64px 24px; }
+  .section-inner { max-width: 700px; margin: 0 auto; }
+  .section-alt { background: var(--cream-card); }
+
+  /* Step indicator */
+  .step-indicator { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 40px; }
+  .step-dot { width: 36px; height: 36px; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; transition: all 0.3s; }
+  .step-dot.active { background: var(--gold); color: #fff; }
+  .step-line { width: 60px; height: 2px; background: var(--border); transition: background 0.3s; }
+  .step-line.done { background: var(--gold-dim); }
+  .step-label-row { display: flex; justify-content: center; gap: 96px; margin-top: 8px; }
+  .step-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; text-align: center; width: 60px; }
+  @media (max-width: 500px) { .step-label-row { gap: 60px; } .step-line { width: 40px; } }
+
+  /* Cards */
+  .card {
+    background: var(--cream-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-sm);
+    margin-bottom: 28px;
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .card .card-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  /* Contact channels */
+  .contact-channels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+	  .contact-channels > * { min-width: 0; }
+  @media (max-width: 700px) { .contact-channels { grid-template-columns: 1fr; } }
+  .contact-chip {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    text-decoration: none; color: var(--text-soft); font-size: 14px; font-weight: 500;
+    transition: all 0.25s; overflow-wrap: break-word; word-break: break-word;
+  }
+  .contact-chip:hover { border-color: var(--gold-dim); box-shadow: var(--shadow-sm); }
+  .contact-chip .icon { font-size: 20px; width: 24px; text-align: center; }
+
+  /* PayPal section */
+  .paypal-card { border: 2px solid var(--border-gold); }
+  .paypal-card h2 { color: var(--gold-deep); }
+  .paypal-row { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .paypal-price { text-align: center; flex-shrink: 0; }
+  .paypal-price .big { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--gold-deep); line-height: 1; }
+  .paypal-price .refund { font-size: 12px; color: var(--jade); margin-top: 6px; }
+  .paypal-action { flex: 1; min-width: 200px; }
+  .paypal-note { font-size: 12px; color: var(--text-muted); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+  /* Form */
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 12px; font-weight: 600; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 12px 16px; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px; color: var(--text); background: #fff;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none; border-color: var(--gold-dim);
+    box-shadow: 0 0 0 3px oklch(0.68 0.14 78 / 0.12);
+  }
+  .form-group textarea { min-height: 90px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+  .form-group input.required-field:user-invalid { border-color: var(--terracotta); }
+
+  /* Payment checkboxes */
+  .payment-confirm { background: oklch(0.96 0.02 82 / 0.5); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); padding: 20px 22px; margin-bottom: 20px; }
+  .payment-confirm .form-checkbox { display: flex; align-items: flex-start; gap: 10px; }
+  .payment-confirm .form-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--gold-deep); flex-shrink: 0; cursor: pointer; }
+  .payment-confirm .form-checkbox label { font-size: 13px; color: var(--text-soft); line-height: 1.5; font-weight: 500; cursor: pointer; }
+  .payment-confirm .form-checkbox label a { color: var(--gold-deep); text-decoration: underline; }
+
+  .form-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 22px 0 8px; }
+  .form-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--gold-deep); flex-shrink: 0; cursor: pointer; }
+  .form-checkbox label { font-size: 13px; color: var(--text-soft); line-height: 1.5; cursor: pointer; }
+  .form-checkbox label a { color: var(--gold-deep); text-decoration: underline; }
+
+  .btn-submit {
+    margin-top: 8px; width: 100%; padding: 15px 32px;
+    background: var(--border); color: var(--text-muted); border: none;
+    border-radius: 999px; font-size: 15px; font-weight: 500;
+    letter-spacing: 0.03em; cursor: not-allowed;
+    transition: all 0.3s ease;
+  }
+  .btn-submit.enabled {
+    background: var(--gold); color: #fff; cursor: pointer;
+    box-shadow: 0 4px 18px oklch(0.68 0.14 78 / 0.28);
+  }
+  .btn-submit.enabled:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 6px 24px oklch(0.68 0.14 78 / 0.38); }
+
+  .form-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 14px; }
+
+  /* Cancellation */
+  .policy-list { list-style: none; }
+  .policy-list li { font-size: 13px; color: var(--text-soft); padding: 6px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .policy-list li:last-child { border-bottom: none; }
+  .policy-list li strong { color: var(--text); }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 28px; }
+  @media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
+  .step { text-align: center; padding: 28px 20px; background: var(--cream-card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .step-num { width: 40px; height: 40px; margin: 0 auto 14px; background: var(--gold); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  .step h3 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .step p { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
+
+  /* Footer */
+  .footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+  .footer-copy { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .card { padding: 24px; }
+    .section { padding: 40px 16px; }
+    .page-header { padding: 100px 16px 40px; }
+  }
+</style>
+<script src="https://www.paypal.com/sdk/js?client-id=BAAAu0Le8wPABnYqX643H4ZuNV2m0GUuNbRY8n0cXPGA0Eh1wR0e-ECpnPu6U9nSr4TGQT3BtLrBxshGcE&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="plan-your-day.html">Plan Your Day</a></li>
+      <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="book-now.html" class="active">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- Page Header -->
+<section class="page-header" aria-label="Book Now">
+  <div class="section-label">Reserve Your Day</div>
+  <h1>Book Your Shanghai Experience</h1>
+  <p class="subtitle">Two steps: pay your deposit, then fill the booking form. We'll confirm within 24 hours.</p>
+</section>
+
+<!-- Step 1: Contact & Questions -->
+<section class="section" aria-label="Questions before booking">
+  <div class="section-inner">
+    <div class="card fade-up">
+      <h2>Have questions before booking?</h2>
+      <p class="card-sub">DM us on any platform below. We usually reply within a few hours.</p>
+      <div class="contact-channels">
+        <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" class="contact-chip">
+          <span class="icon">&#x1F4F7;</span> Instagram<br>@ShanghaiUnlocked
+        </a>
+        <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" class="contact-chip">
+          <span class="icon">&#x1F3B5;</span> TikTok<br>@ShanghaiUnlocked
+        </a>
+        <a href="mailto:shanghaiunlocked@gmail.com" class="contact-chip">
+          <span class="icon">&#x2709;</span> Email<br>shanghaiunlocked@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 2: Payment -->
+<section class="section section-alt" aria-label="Pay deposit" id="payment">
+  <div class="section-inner">
+    <div class="card paypal-card fade-up">
+      <h2>Step 1 &mdash; Pay Your Deposit</h2>
+      <p class="card-sub">Your date is only reserved once the deposit is paid AND the booking form is submitted. Do this first.</p>
+      <div class="paypal-row">
+        <div class="paypal-price">
+          <div class="big">$100</div>
+          <div style="font-size:14px;color:var(--text-soft);">USD</div>
+          <div class="refund">Fully refundable<br>up to 7 days before</div>
+        </div>
+        <div class="paypal-action">
+          <div id="paypal-container-MPGBZUUJST35N"></div>
+        </div>
+      </div>
+      <p class="paypal-note">After paying, copy the <strong>Transaction ID</strong> from your PayPal receipt. You'll need it for the booking form below.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Step 3: Booking Form -->
+<section class="section" aria-label="Booking form" id="form">
+  <div class="section-inner">
+    <div class="card fade-up">
+      <h2>Step 2 &mdash; Fill Your Booking Form</h2>
+      <p class="card-sub">Submit this AFTER you've paid the deposit. We match your form to your payment using your Transaction ID or name.</p>
+
+      <form action="https://formspree.io/f/xykayqno" method="POST" id="bookingForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" placeholder="Same name used in your PayPal payment" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="date">Preferred Date *</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+          <div class="form-group">
+            <label for="groupSize">Group Size *</label>
+            <select id="groupSize" name="groupSize" required>
+              <option value="">Select group size</option>
+              <option value="1">1 person</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+              <option value="4">4 people</option>
+              <option value="5">5 people</option>
+              <option value="6+">6+ people (contact us first)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="paypalTxn">PayPal Transaction ID *</label>
+          <input type="text" id="paypalTxn" name="paypalTxn" placeholder="Find this in your PayPal receipt email or confirmation screen" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your itinerary or preferences (optional)</label>
+          <textarea id="message" name="message" placeholder="Tell us what kind of day you're looking for, which route you picked, or any special requests. Or leave it blank and we'll craft something perfect for you."></textarea>
+        </div>
+
+        <!-- Payment confirmation block -->
+        <div class="payment-confirm">
+          <div class="form-checkbox" style="margin:0;">
+            <input type="checkbox" id="paidConfirm" name="paidConfirm" required>
+            <label for="paidConfirm"><strong>I confirm I have paid the $100 USD deposit via PayPal.</strong> I understand my booking is not complete until both payment and this form are submitted. My deposit is refundable according to the cancellation policy below.</label>
+          </div>
+        </div>
+
+        <div class="form-checkbox">
+          <input type="checkbox" id="termsAgree" name="termsAgree" required>
+          <label for="termsAgree">I have read and agree to the <a href="terms.html" target="_blank">Booking Terms</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>. *</label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn" disabled>Pay Deposit First, Then Submit</button>
+      </form>
+      <p class="form-note">We'll reply within 24 hours to confirm your date. Your spot is reserved once we confirm via email.</p>
+    </div>
+
+    <!-- Cancellation Policy -->
+    <div class="card fade-up">
+      <h2>Cancellation Policy</h2>
+      <ul class="policy-list">
+        <li><strong>7+ days before</strong> &mdash; Full refund of deposit</li>
+        <li><strong>3&ndash;6 days before</strong> &mdash; 50% refund of deposit</li>
+        <li><strong>Less than 72 hours</strong> &mdash; Deposit is non-refundable</li>
+        <li><strong>No-show</strong> &mdash; Full deposit forfeited</li>
+      </ul>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:10px;">If we need to cancel, you get a full refund. Full details in <a href="terms.html">Booking Terms</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- What Happens Next -->
+<section class="section section-alt" aria-label="What happens next">
+  <div class="section-inner">
+    <div class="section-label" style="font-family:'Caveat',cursive;font-size:26px;color:var(--gold-deep);text-align:center;opacity:0.78;">After You Book</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,38px);font-weight:700;text-align:center;margin-bottom:12px;">What happens next</h2>
+    <p style="text-align:center;color:var(--text-soft);font-size:16px;max-width:500px;margin:0 auto 36px;">Once we confirm, here's what to expect.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>We Confirm</h3>
+        <p>Within 24 hours, we email you to confirm your date and send your Pre-Arrival Setup Video.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>You Prep</h3>
+        <p>Follow the video to set up Alipay, DiDi, and your VPN. Takes 15 minutes. We're here if you get stuck.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>We Meet You</h3>
+        <p>Private car picks you up. Your companion handles navigation, translation, payments. You just enjoy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <svg class="footer-sketch" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10 Q 50 0 100 10 T 190 10" fill="none" stroke="oklch(0.68 0.14 78 / 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="plan-your-day.html">Plan Your Day</a>
+    <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="book-now.html">Book Now</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Booking Terms</a>
+  </div>
+  <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);">
+    <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
+    <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
+    <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+  </div>
+  <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
+</footer>
+
+<script>
+// PayPal button
+paypal.HostedButtons({
+  hostedButtonId: "MPGBZUUJST35N",
+}).render("#paypal-container-MPGBZUUJST35N");
+
+// Enable submit only when payment checkbox is checked
+const paidCheck = document.getElementById('paidConfirm');
+const submitBtn = document.getElementById('submitBtn');
+
+function updateSubmit() {
+  if (paidCheck.checked) {
+    submitBtn.disabled = false;
+    submitBtn.classList.add('enabled');
+    submitBtn.textContent = 'Send Booking Request';
+  } else {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove('enabled');
+    submitBtn.textContent = 'Pay Deposit First, Then Submit';
+  }
+}
+
+paidCheck.addEventListener('change', updateSubmit);
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile nav toggle
+document.querySelector('.nav-toggle').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
+// Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
