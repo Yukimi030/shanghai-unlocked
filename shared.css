@@ -1,0 +1,179 @@
+/* ==========================================
+   Shanghai Unlocked — Shared Design System
+   Used by: index.html, plan-your-day.html, taste-toast.html
+   ========================================== */
+
+/* ---- Design Tokens ---- */
+:root {
+  --cream:       oklch(0.97 0.005 85);
+  --cream-card:  oklch(0.99 0.003 85);
+  --gold:        oklch(0.68 0.14 78);
+  --gold-deep:   oklch(0.60 0.13 75);
+  --gold-dim:    oklch(0.72 0.08 72);
+  --terracotta:  oklch(0.55 0.16 35);
+  --jade:        oklch(0.58 0.09 185);
+  --text:        oklch(0.25 0.02 75);
+  --text-soft:   oklch(0.42 0.01 75);
+  --text-muted:  oklch(0.56 0.01 75);
+  --border:      oklch(0.88 0.01 80);
+  --border-gold: oklch(0.78 0.10 78);
+  --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+  --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+  --shadow-lg:   0 12px 48px oklch(0.2 0.01 75 / 0.10);
+  --radius:      12px;
+  --radius-sm:   6px;
+
+  /* Typography Scale */
+  --fs-hero:     clamp(48px, 7vw, 88px);
+  --fs-h1:       clamp(36px, 5vw, 56px);
+  --fs-h2:       clamp(28px, 4vw, 44px);
+  --fs-h3:       clamp(20px, 2.5vw, 26px);
+  --fs-h4:       16px;
+  --fs-body-lg:  17px;
+  --fs-body:     15px;
+  --fs-body-sm:  14px;
+  --fs-caption:  13px;
+  --fs-tag:      12px;
+  --fs-eyebrow:  24px;
+
+  /* Easing */
+  --ease-card: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+/* ---- Body ---- */
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Accessibility ---- */
+.skip-link {
+  position: absolute; top: -100px; left: 24px; z-index: 200;
+  background: var(--gold-deep); color: #fff; padding: 8px 16px;
+  border-radius: var(--radius-sm); font-weight: 500;
+}
+.skip-link:focus { top: 12px; }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- Navigation ---- */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: transform 0.35s var(--ease-card), background 0.35s ease, border-bottom 0.35s ease, box-shadow 0.35s ease; }
+.nav.scrolled { background: oklch(0.97 0.005 85 / 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.nav.hidden { transform: translateY(-100%); }
+.nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+.nav.scrolled .nav-logo { color: var(--gold-deep); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { color: var(--text-soft); text-decoration: none; font-size: var(--fs-body-sm); font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+/* ---- Footer ---- */
+.footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+.footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+.footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.footer-links a { color: var(--text-muted); text-decoration: none; font-size: var(--fs-caption); }
+.footer-copy { color: var(--text-muted); font-size: var(--fs-tag); margin-top: 8px; }
+
+/* ---- Scroll Reveal ---- */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ---- Stagger System ---- */
+.stagger-container { }
+.stagger-item:nth-child(1) { transition-delay: 0s; }
+.stagger-item:nth-child(2) { transition-delay: 0.12s; }
+.stagger-item:nth-child(3) { transition-delay: 0.24s; }
+.stagger-item:nth-child(4) { transition-delay: 0.36s; }
+
+/* ---- Section Label (Caveat handwriting reveal) ---- */
+.section-label {
+  font-family: 'Caveat', cursive;
+  font-size: var(--fs-eyebrow);
+  color: var(--gold-deep);
+  margin-bottom: 8px;
+  opacity: 0.78;
+  text-align: center;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.section-label.revealed { clip-path: inset(0 0 0 0); }
+
+/* ---- Section Rule (decorative divider) ---- */
+.section-rule {
+  border: none; height: 1px;
+  background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  margin: 56px auto 40px; max-width: 160px; position: relative;
+  transform: scaleX(0);
+  transition: transform 0.8s var(--ease-card);
+}
+.section-rule.expanded { transform: scaleX(1); }
+.section-rule::after {
+  content: ''; position: absolute; top: -3px; left: 50%;
+  transform: translateX(-50%); width: 7px; height: 7px;
+  background: var(--gold-dim); border-radius: 50%;
+}
+
+/* ---- Unified Card Hover ---- */
+.card-lift {
+  transition: transform 0.35s var(--ease-card), box-shadow 0.35s var(--ease-card);
+}
+.card-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.card-lift .card-img { overflow: hidden; }
+.card-lift .card-img img { transition: transform 0.5s var(--ease-card); }
+.card-lift:hover .card-img img { transform: scale(1.05); }
+
+/* ---- Button CTA with overlay hover ---- */
+.btn-cta {
+  position: relative; overflow: hidden;
+  padding: 10px 24px; border-radius: 999px;
+  font-size: var(--fs-body-sm); font-weight: 600;
+  border: none; cursor: pointer;
+  background: var(--gold); color: #fff;
+  letter-spacing: 0.02em;
+  transition: background 0.3s;
+}
+.btn-cta::after {
+  content: ''; position: absolute; inset: 0;
+  background: oklch(0 0 0 / 0.08);
+  opacity: 0; transition: opacity 0.25s;
+  border-radius: 999px;
+}
+.btn-cta:hover::after { opacity: 1; }
+.btn-cta:hover { background: var(--gold-deep); }
+
+/* ---- Reduced Motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .fade-up { opacity: 1; transform: none; }
+  .section-label { clip-path: inset(0 0 0 0); }
+  .section-rule { transform: scaleX(1); }
+  .nav.hidden { transform: none; }
+}
+
+/* ---- Responsive: Navigation ---- */
+@media (max-width: 768px) {
+  .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: block; }
+}

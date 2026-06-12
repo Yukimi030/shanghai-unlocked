@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Shanghai Unlocked</title>
+<meta name="description" content="Everything you need to know before visiting Shanghai — visa, payment, transport, internet, safety. Your questions answered by Shanghai Unlocked.">
+<meta name="google-site-verification" content="7ttMQBaCMB3Sg9X9sGSgIMnRQqWadb-qJWGO5SOPjco" />
+<meta property="og:title" content="FAQ — Shanghai Unlocked">
+<meta property="og:description" content="Everything you need to know before visiting Shanghai. Visa, payment, transport, internet, safety — all your questions answered.">
+<meta property="og:image" content="https://shanghaiunlocked.com/skyline.png">
+<meta property="og:url" content="https://shanghaiunlocked.com/faq.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --cream:       oklch(0.97 0.005 85);
+    --cream-card:  oklch(0.99 0.003 85);
+    --gold:        oklch(0.68 0.14 78);
+    --gold-deep:   oklch(0.60 0.13 75);
+    --gold-dim:    oklch(0.72 0.08 72);
+    --terracotta:  oklch(0.55 0.16 35);
+    --jade:        oklch(0.58 0.09 185);
+    --text:        oklch(0.25 0.02 75);
+    --text-soft:   oklch(0.42 0.01 75);
+    --text-muted:  oklch(0.56 0.01 75);
+    --border:      oklch(0.88 0.01 80);
+    --border-gold: oklch(0.78 0.10 78);
+    --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+    --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+    --radius:      12px;
+    --radius-sm:   6px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family: 'Source Sans 3', system-ui, sans-serif; background: var(--cream); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.018; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .skip-link { position: absolute; top: -100px; left: 24px; z-index: 200; background: var(--gold-deep); color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 500; }
+  .skip-link:focus { top: 12px; }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: oklch(0.97 0.005 85 / 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); transition: box-shadow 0.35s ease; }
+  .nav.scrolled { box-shadow: var(--shadow-sm); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav.scrolled .nav-logo { color: var(--gold-deep); }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+  /* Page Header */
+  .page-hero { padding: 140px 24px 64px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.01 85) 0%, oklch(0.93 0.016 80) 50%, oklch(0.97 0.005 85) 100%); }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .page-hero p { color: var(--text-soft); font-size: 17px; max-width: 520px; margin: 0 auto; }
+
+  /* Category Nav */
+  .cat-nav { padding: 24px 24px; text-align: center; position: sticky; top: 64px; z-index: 99; background: #f7f4ed; border-bottom: 1px solid var(--border); transition: top 0.35s ease; }
+  .cat-nav-inner { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+  .cat-nav a { padding: 6px 18px; border-radius: 999px; font-size: 13px; font-weight: 500; text-decoration: none; color: var(--text-soft); border: 1px solid var(--border); transition: all 0.25s; white-space: nowrap; }
+  .cat-nav a:hover, .cat-nav a:focus { border-color: var(--gold-dim); color: var(--gold-deep); }
+
+  /* FAQ Section */
+  .faq-section { padding: 80px 24px; }
+  .faq-inner { max-width: 760px; margin: 0 auto; }
+  .faq-category { margin-bottom: 64px; scroll-margin-top: 140px; }
+  .faq-cat-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 28px); font-weight: 700; color: var(--text); margin-bottom: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--border-gold); display: flex; align-items: center; gap: 10px; }
+  .faq-cat-icon { font-size: 20px; opacity: 0.5; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q { width: 100%; background: none; border: none; padding: 20px 0; text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color 0.2s; }
+  .faq-q:hover { color: var(--gold-deep); }
+  .faq-q .arrow { flex-shrink: 0; width: 20px; height: 20px; transition: transform 0.3s ease; color: var(--gold-dim); }
+  .faq-item.open .faq-q .arrow { transform: rotate(45deg); color: var(--gold-deep); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+  .faq-item.open .faq-a { max-height: 600px; padding-bottom: 20px; }
+  .faq-a-inner { color: var(--text-soft); font-size: 15px; line-height: 1.75; }
+  .faq-a-inner p { margin-bottom: 12px; }
+  .faq-a-inner p:last-child { margin-bottom: 0; }
+  .faq-a-inner ul { margin: 8px 0 12px 20px; }
+  .faq-a-inner li { margin-bottom: 6px; }
+  .faq-a-inner strong { color: var(--text); }
+
+  /* CTA */
+  .cta-strip { padding: 88px 24px; background: radial-gradient(ellipse 80% 60% at 50% 50%, oklch(0.78 0.10 78 / 0.22) 0%, oklch(0.94 0.012 82 / 0.10) 40%, oklch(0.92 0.015 78) 100%); text-align: center; }
+  .cta-strip h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 12px; }
+  .cta-strip p { color: var(--text-soft); font-size: 17px; margin-bottom: 28px; }
+  .btn-primary { display: inline-block; padding: 14px 34px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; background: var(--gold); color: #fff; box-shadow: 0 4px 18px oklch(0.68 0.14 78 / 0.32); transition: all 0.3s ease; }
+  .btn-primary:hover { background: var(--gold-deep); transform: translateY(-1px); }
+
+  /* Footer */
+  .footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+  .footer-copy { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .faq-section { padding: 48px 20px; }
+    .cat-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .cat-nav-inner { flex-wrap: nowrap; justify-content: flex-start; padding-bottom: 4px; }
+    .page-hero { padding: 120px 20px 48px; }
+    .nav-toggle { display: block; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#discover">Discover</a></li>
+      <li><a href="index.html#story">Our Story</a></li>
+      <li><a href="plan-your-day.html">Plan Your Day</a></li>
+      <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="faq.html" class="active">FAQ</a></li>
+      <li><a href="book-now.html">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="page-hero" aria-label="FAQ header">
+  <h1>Frequently Asked Questions</h1>
+  <p>Everything you need to know before you arrive. If you don't find your answer here, just ask.</p>
+</section>
+
+<nav class="cat-nav" aria-label="FAQ categories">
+  <div class="cat-nav-inner">
+    <a href="#who-we-are">Who We Are</a>
+    <a href="#booking">Booking & Pricing</a>
+    <a href="#payment">Payment</a>
+    <a href="#getting-around">Getting Around</a>
+    <a href="#internet">Internet & VPN</a>
+    <a href="#contact">Staying in Touch</a>
+    <a href="#visa">Visa</a>
+    <a href="#safety">Safety</a>
+  </div>
+</nav>
+
+<section class="faq-section" aria-label="Frequently asked questions">
+  <div class="faq-inner">
+
+    <!-- Who We Are -->
+    <div class="faq-category" id="who-we-are">
+      <h2 class="faq-cat-title">Who We Are</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Who are you? What makes Shanghai Unlocked special?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>We are <strong>Your Local Bestie in Shanghai</strong> — and that's not a marketing line.</p>
+          <p>We've been foreigners ourselves. We studied in the UK, Poland, and Israel, and traveled across Europe. We know exactly what it feels like to land somewhere unfamiliar and need a friend who just <em>knows</em> — where to eat, how to pay, what to skip, what's actually worth your time.</p>
+          <p><strong>What you get with us:</strong></p>
+          <ul>
+            <li>🏠 Private car + driver — no group bus, no fixed schedule</li>
+            <li>🗣 Real-time translation — menus, signs, conversations, all handled</li>
+            <li>🍜 Places locals actually go — not TripAdvisor's top 10</li>
+            <li>🎨 Your pace, your interests — spend an extra hour in that courtyard? Done. Skip the museum for a rooftop? We know three.</li>
+            <li>📶 Mobile Wi-Fi included — stay connected all day</li>
+          </ul>
+          <p>You explore Shanghai. You don't manage it.</p>
+        </div></div>
+      </div>
+
+    </div>
+
+    <!-- Booking & Pricing -->
+    <div class="faq-category" id="booking">
+      <h2 class="faq-cat-title">Booking & Pricing</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What exactly do you offer? What does a day with you look like?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>We offer one core service: a <strong>private full-day companion experience in Shanghai</strong>.</p>
+          <p><strong>1. Before you land — Pre-Arrival Kit:</strong> After you book, we send you a pre-arrival guide (PDF + video) covering essential app downloads and setup (Alipay, DiDi, VPN).</p>
+          <p><strong>2. On the day:</strong> Private car and driver plus your English-speaking local companion for 8 hours. We handle navigation, real-time menu translation, recommendations, and logistics. You set the pace.</p>
+          <p><strong>3. Your itinerary:</strong> Choose from our curated City Sets or build your own from our à la carte list. Every plan bends around what you actually care about.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How much does it cost?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p><strong>City Sets (8 hours):</strong></p>
+          <ul>
+            <li>5-Seat Car (up to 3 people): <strong>¥2,600</strong></li>
+            <li>7-Seat Car (up to 5 people): <strong>¥3,000</strong></li>
+          </ul>
+          <p><strong>Day Trips (8-10 hours):</strong></p>
+          <ul>
+            <li>5-Seat Car: <strong>¥4,100</strong></li>
+            <li>7-Seat Car: <strong>¥4,500</strong></li>
+          </ul>
+          <p><strong>Included in your price:</strong> Private car + driver, English-speaking local companion for 8 hours, mobile Wi-Fi device, real-time translation, and flexible itinerary planning. Our driver and companion meals are on us — we never ask you to cover them.</p>
+          <p><strong>At your own expense:</strong> Attraction tickets, your meals, and personal shopping. Overtime, if you choose to extend, is <strong>¥300 per extra hour</strong>.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How do I book? What's the deposit?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Two steps — takes about 3 minutes:</p>
+          <p><strong>Step 1 — Pay your $100 USD deposit</strong> via PayPal on our <a href="book-now.html" style="color:var(--gold-deep);">Book Now</a> page. This secures your date.</p>
+          <p><strong>Step 2 — Fill the booking form</strong> with your details and preferences. You'll need the Transaction ID from your PayPal receipt.</p>
+          <p>We'll email you within <strong>24 hours</strong> to confirm. Your booking is only confirmed once you receive our confirmation email. The remaining balance is due at least 24 hours before your date (or on the day, if we agree in advance).</p>
+          <p>Browse <a href="plan-your-day.html" style="color:var(--gold-deep);">Plan Your Day</a> first if you want to explore our routes before booking.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What is your cancellation policy?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>We understand plans change. Here's how it works:</p>
+          <ul>
+            <li><strong>7+ days before</strong> your date — full refund of deposit</li>
+            <li><strong>3–6 days before</strong> — 50% refund of deposit</li>
+            <li><strong>Less than 72 hours</strong> — deposit is non-refundable</li>
+            <li><strong>No-show</strong> — full deposit forfeited</li>
+          </ul>
+          <p>If we need to cancel for any reason, you get a <strong>full refund</strong> within 7 business days. To cancel, just email us at shanghaiunlocked@gmail.com.</p>
+          <p>Date changes are free subject to availability — just let us know as soon as possible.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What time does the day start and end?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>You choose your start time. The latest we can begin is <strong>1:00 PM</strong>, so we wrap up by <strong>9:00 PM</strong> at the latest — 8 hours total. Pickup is anywhere in central Shanghai (your hotel, a restaurant, a mall — whatever is easiest).</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="faq-category" id="payment">
+      <h2 class="faq-cat-title">Payment</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Will my credit card work in Shanghai? How do I pay for things?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>This is the number one concern for first-time visitors. Here's the truth:</p>
+          <p><strong>Credit cards:</strong> Visa and Mastercard work at hotels and upscale restaurants, but about 70% of local spots — street food, neighborhood restaurants — only accept mobile QR code payment. Your card will be declined without warning.</p>
+          <p><strong>The solution — Alipay:</strong></p>
+          <ul>
+            <li>Download the <strong>Alipay International</strong> app.</li>
+            <li>Link your Visa or Mastercard directly — no Chinese bank account required.</li>
+            <li>Scan QR codes everywhere, just like locals.</li>
+          </ul>
+          <p>Our pre-arrival instructional video walks you through the entire Alipay setup before you land.</p>
+          <p><strong>Pay-on-behalf service:</strong> During our companion day, we can cover payments on your behalf wherever needed. All payments must be settled in full at the end of the day, calculated on the actual RMB total paid.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is it better to bring cash?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Having some <strong>cash (RMB)</strong> on hand is always convenient — for street food, small shops, or that random bao you'll definitely want to try. But most transactions in Shanghai are now cashless via Alipay or WeChat. We recommend setting up Alipay before your trip and carrying a small amount of cash as backup.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is my payment and personal data secure?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p><strong>Yes.</strong> All payments are processed through <strong>PayPal</strong> — we never see or store your full card details. Your booking information (name, email, date, preferences) is used only to deliver your experience. We <strong>never</strong> sell, trade, or share your data with anyone. For full details, see our <a href="privacy.html" style="color:var(--gold-deep);">Privacy Policy</a>.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Getting Around -->
+    <div class="faq-category" id="getting-around">
+      <h2 class="faq-cat-title">Getting Around</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How do I get a taxi? Uber doesn't work here.<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Correct — Uber does not operate in China. Here is what works:</p>
+          <ul>
+            <li><strong>DiDi Greater China</strong> — China's Uber. The international version accepts foreign cards and has a full English interface. Download and set up before your flight.</li>
+            <li><strong>Shanghai Metro</strong> — Excellent coverage and English signage. Pay directly via Alipay's built-in transit QR code.</li>
+          </ul>
+          <p>⚠️ At airports: ignore anyone offering a ride. Use DiDi or the official taxi queue. Never get into an unmarked vehicle.</p>
+          <p>✅ On our companion days, all transport is handled — private car, driver, navigation.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Google Maps is blocked. What do I use?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <ul>
+            <li><strong>Apple Maps</strong> — iPhone users, you're in luck. Apple Maps works perfectly in China with live navigation and English labels. Download offline maps for Shanghai before you land.</li>
+            <li><strong>Amap (Gaode)</strong> — More accurate for local spots. Has a working English interface. Top recommendation for Android users.</li>
+          </ul>
+          <p>⚠️ Do not rely on a VPN to use Google Maps. Google Maps uses outdated satellite data for China and is less accurate than local apps.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Internet & VPN -->
+    <div class="faq-category" id="internet">
+      <h2 class="faq-cat-title">Internet & VPN</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Do I need a SIM card or VPN?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Instagram, WhatsApp, Facebook, and all Google services are blocked in China.</p>
+          <p><strong>During your companion day with us:</strong> we provide a <strong>mobile Wi-Fi device</strong> throughout the day at no extra charge.</p>
+          <p><strong>For your independent time:</strong></p>
+          <ul>
+            <li><strong>eSIM (recommended)</strong> — Purchase a China Unicom Hong Kong eSIM before departure. Activates instantly and lets you use local apps without needing a VPN.</li>
+            <li><strong>VPN</strong> — Must be purchased and installed <strong>before you land</strong>. ExpressVPN, NordVPN, and Astrill are reliable options. VPNs sometimes disconnect, so do not rely on VPN for navigation or payments.</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Staying in Touch -->
+    <div class="faq-category" id="contact">
+      <h2 class="faq-cat-title">Staying in Touch</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How do I reach you once I'm in China?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Important heads-up: <strong>WhatsApp is restricted in China</strong> and does not work reliably.</p>
+          <ul>
+            <li><strong>iPhone users</strong> — FaceTime and iMessage work in China without a VPN. These are our preferred channels.</li>
+            <li><strong>Android users</strong> — Download <strong>Microsoft Teams</strong> before departure. It works reliably in China.</li>
+            <li><strong>WeChat</strong> — China's primary messaging app. We will share our WeChat ID in your booking confirmation.</li>
+          </ul>
+          <p>📧 Email: <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--gold-deep);">shanghaiunlocked@gmail.com</a></p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Visa -->
+    <div class="faq-category" id="visa">
+      <h2 class="faq-cat-title">Visa Requirements</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Do I need a visa for Shanghai?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p><strong>For US Citizens:</strong> You generally need to apply in advance for a Chinese Tourist Visa (L Visa). However, if you are transiting through Shanghai to a third country (not returning directly to the US), you may qualify for a <strong>144-hour visa-free transit</strong>.</p>
+          <p><strong>For UK / EU / Australia Citizens:</strong> China has significantly expanded visa-free access. As of 2026, citizens of most EU countries, the UK, Australia, and New Zealand can enter <strong>visa-free for 30 days</strong>.</p>
+          <p>⚠️ Visa policy changes frequently. Always check the latest information with the Chinese Embassy or Consulate in your country before booking travel.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Safety -->
+    <div class="faq-category" id="safety">
+      <h2 class="faq-cat-title">Safety</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is Shanghai safe for solo travelers?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p><strong>Shanghai is one of the safest major cities in the world.</strong> There is almost no violent crime against tourists.</p>
+          <p><strong>What to actually watch for:</strong></p>
+          <ul>
+            <li><strong>Tourist scams</strong> — "Tea ceremony" invitations or overpriced trinket shops near The Bund. Annoying but not dangerous. Ignore and walk away.</li>
+            <li><strong>Digital isolation</strong> — The real risk for most visitors is being unable to navigate, pay, or communicate in an emergency. This is exactly what our pre-arrival setup solves.</li>
+          </ul>
+          <p>✅ Solo female travelers consistently rate Shanghai among their most comfortable solo destinations. Public spaces are well-lit, and the metro is busy and safe at all hours.</p>
+        </div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <h2>Ready to unlock Shanghai?</h2>
+  <p>Still have questions? Reach out anytime — we're happy to help.</p>
+  <a href="plan-your-day.html" class="btn-primary">Plan Your Day</a>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <svg class="footer-sketch" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10 Q 50 0 100 10 T 190 10" fill="none" stroke="oklch(0.68 0.14 78 / 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="plan-your-day.html">Plan Your Day</a>
+    <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="faq.html">FAQ</a>
+    <a href="book-now.html">Book Now</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Booking Terms</a>
+  </div>
+  <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);">
+    <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
+    <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
+    <a href="https://tiktok.com/@shanghaiunlocked5" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+    <a href="https://youtube.com/@Shanghai-Unlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">YouTube</a>
+  </div>
+  <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+// Accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', !isOpen);
+  });
+});
+
+// Highlight current category in sticky nav
+const sections = document.querySelectorAll('.faq-category');
+const navLinks = document.querySelectorAll('.cat-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.style.color = '');
+      const id = entry.target.id;
+      const active = document.querySelector(`.cat-nav a[href="#${id}"]`);
+      if (active) active.style.color = 'var(--gold-deep)';
+    }
+  });
+}, { rootMargin: '-50% 0px -50% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Adjust cat-nav top when main nav hides on scroll
+(function(){
+  const catNav = document.querySelector('.cat-nav');
+  if (!catNav) return;
+  let ticking = false;
+  window.addEventListener('scroll', function(){
+    if (!ticking) {
+      window.requestAnimationFrame(function(){
+        catNav.style.top = window.scrollY > 200 ? '0' : '64px';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

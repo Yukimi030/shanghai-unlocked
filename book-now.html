@@ -61,8 +61,8 @@
   }
 
   /* Nav */
-  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: all 0.35s ease; }
-  .nav.scrolled { background: oklch(0.97 0.005 85 / 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: oklch(0.97 0.005 85 / 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); transition: box-shadow 0.35s ease; }
+  .nav.scrolled { box-shadow: var(--shadow-sm); }
   .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
   .nav.scrolled .nav-logo { color: var(--gold-deep); }
@@ -74,10 +74,10 @@
   .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
 
   /* Page Header */
-  .page-header { padding: 120px 24px 56px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.008 85) 0%, oklch(0.94 0.012 82) 100%); }
-  .page-header .section-label { font-family: 'Caveat', cursive; font-size: 26px; color: var(--gold-deep); margin-bottom: 8px; opacity: 0.78; }
-  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
-  .page-header .subtitle { font-size: 16px; color: var(--text-soft); margin-top: 12px; max-width: 540px; margin-left: auto; margin-right: auto; }
+  .page-hero { padding: 120px 24px 56px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.01 85) 0%, oklch(0.93 0.016 80) 50%, oklch(0.97 0.005 85) 100%); }
+  .page-hero .section-label { font-family: 'Caveat', cursive; font-size: 26px; color: var(--gold-deep); margin-bottom: 8px; opacity: 0.78; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .page-hero .subtitle { font-size: 16px; color: var(--text-soft); margin-top: 12px; max-width: 540px; margin-left: auto; margin-right: auto; }
 
   /* Section */
   .section { padding: 64px 24px; }
@@ -208,7 +208,7 @@
     .nav-toggle { display: block; }
     .card { padding: 24px; }
     .section { padding: 40px 16px; }
-    .page-header { padding: 100px 16px 40px; }
+    .page-hero { padding: 100px 16px 40px; }
   }
 </style>
 <script src="https://www.paypal.com/sdk/js?client-id=BAAAu0Le8wPABnYqX643H4ZuNV2m0GUuNbRY8n0cXPGA0Eh1wR0e-ECpnPu6U9nSr4TGQT3BtLrBxshGcE&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
@@ -222,8 +222,11 @@
     <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#discover">Discover</a></li>
+      <li><a href="index.html#story">Our Story</a></li>
       <li><a href="plan-your-day.html">Plan Your Day</a></li>
       <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="faq.html">FAQ</a></li>
       <li><a href="book-now.html" class="active">Book Now</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
@@ -233,7 +236,7 @@
 <main id="main">
 
 <!-- Page Header -->
-<section class="page-header" aria-label="Book Now">
+<section class="page-hero" aria-label="Book Now">
   <div class="section-label">Reserve Your Day</div>
   <h1>Book Your Shanghai Experience</h1>
   <p class="subtitle">Two steps: pay your deposit, then fill the booking form. We'll confirm within 24 hours.</p>
@@ -249,7 +252,7 @@
         <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" class="contact-chip">
           <span class="icon">&#x1F4F7;</span> Instagram<br>@ShanghaiUnlocked
         </a>
-        <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" class="contact-chip">
+        <a href="https://tiktok.com/@shanghaiunlocked5" target="_blank" rel="noopener" class="contact-chip">
           <span class="icon">&#x1F3B5;</span> TikTok<br>@ShanghaiUnlocked
         </a>
         <a href="mailto:shanghaiunlocked@gmail.com" class="contact-chip">
@@ -398,6 +401,7 @@
     <a href="index.html">Home</a>
     <a href="plan-your-day.html">Plan Your Day</a>
     <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="faq.html">FAQ</a>
     <a href="book-now.html">Book Now</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Booking Terms</a>
@@ -405,7 +409,8 @@
   <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);">
     <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
     <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
-    <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+    <a href="https://tiktok.com/@shanghaiunlocked5" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+    <a href="https://youtube.com/@Shanghai-Unlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">YouTube</a>
   </div>
   <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
 </footer>
