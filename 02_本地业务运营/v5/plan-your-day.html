@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Your Day — Shanghai Unlocked</title>
+<meta name="description" content="Build your perfect day in Shanghai. Choose from curated City Sets or mix and match. Private car, English-speaking companion, 8 hours.">
+<meta name="google-site-verification" content="7ttMQBaCMB3Sg9X9sGSgIMnRQqWadb-qJWGO5SOPjco" />
+<meta property="og:title" content="Plan Your Day — Shanghai Unlocked">
+<meta property="og:description" content="Build your perfect Shanghai day. Curated routes, private car, local English-speaking companion.">
+<meta property="og:image" content="https://shanghaiunlocked.com/skyline.png">
+<meta property="og:url" content="https://shanghaiunlocked.com/plan-your-day.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       oklch(0.97 0.005 85);
+    --cream-card:  oklch(0.99 0.003 85);
+    --gold:        oklch(0.68 0.14 78);
+    --gold-deep:   oklch(0.60 0.13 75);
+    --gold-dim:    oklch(0.72 0.08 72);
+    --terracotta:  oklch(0.55 0.16 35);
+    --jade:        oklch(0.58 0.09 185);
+    --text:        oklch(0.25 0.02 75);
+    --text-soft:   oklch(0.42 0.01 75);
+    --text-muted:  oklch(0.56 0.01 75);
+    --border:      oklch(0.88 0.01 80);
+    --border-gold: oklch(0.78 0.10 78);
+    --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+    --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+    --shadow-lg:   0 12px 48px oklch(0.2 0.01 75 / 0.10);
+    --radius:      12px;
+    --radius-sm:   6px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    padding-bottom: 200px; /* room for sticky bar */
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 24px; z-index: 200;
+    background: var(--gold-deep); color: #fff; padding: 8px 16px;
+    border-radius: var(--radius-sm); font-weight: 500;
+  }
+  .skip-link:focus { top: 12px; }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; background: oklch(0.97 0.005 85 / 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); transition: box-shadow 0.35s ease; }
+  .nav.scrolled { box-shadow: var(--shadow-sm); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav.scrolled .nav-logo { color: var(--gold-deep); }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+  /* Page hero */
+  .page-hero { padding: 120px 24px 56px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.01 85) 0%, oklch(0.93 0.016 80) 50%, oklch(0.97 0.005 85) 100%); }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(34px, 5vw, 56px); font-weight: 700; color: var(--text); }
+  .page-hero h1 i { color: var(--gold); }
+  .page-hero p { color: var(--text-soft); font-size: 16px; max-width: 520px; margin: 16px auto 0; }
+
+  /* Tabs */
+  .tabs-wrap { max-width: 900px; margin: 0 auto 40px; padding: 0 24px; }
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); justify-content: center; flex-wrap: wrap; }
+  .tab-btn { padding: 14px 28px; background: none; border: none; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.25s; }
+  .tab-btn:hover { color: var(--text-soft); }
+  .tab-btn.active { color: var(--gold-deep); border-bottom-color: var(--gold); }
+  .tab-desc { text-align: center; color: var(--text-soft); font-size: 15px; max-width: 580px; margin: 12px auto 0; line-height: 1.6; min-height: 24px; transition: opacity 0.3s; }
+
+  /* Section inner */
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 34px); font-weight: 700; text-align: center; margin-bottom: 32px; }
+
+  /* Route cards */
+  .route-set { background: var(--cream-card); border-radius: var(--radius); border: 1px solid var(--border); padding: 32px; margin-bottom: 28px; }
+  .route-set-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .route-set-badge { padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-a { background: oklch(0.90 0.03 78); color: var(--gold-deep); }
+  .badge-b { background: oklch(0.90 0.02 35 / 0.18); color: var(--terracotta); }
+  .badge-c { background: oklch(0.92 0.02 185 / 0.20); color: var(--jade); }
+  .route-set-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; }
+  .route-set-desc { color: var(--text-soft); font-size: 14px; flex-basis: 100%; }
+  .timeline { list-style: none; }
+  .timeline li { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .timeline li:last-child { border-bottom: none; }
+  .timeline-time { font-weight: 500; font-size: 13px; color: var(--text-muted); }
+  .timeline-what { font-weight: 500; }
+  .timeline-dur { font-size: 12px; color: var(--text-muted); }
+  .route-set-footnote { font-size: 13px; color: var(--text-muted); margin-top: 16px; font-style: italic; }
+
+  /* Escape cards */
+  .escape-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .escape-card { background: var(--cream-card); border-radius: var(--radius); border: 1px solid var(--border); padding: 28px; transition: transform 0.3s, box-shadow 0.3s; }
+  .escape-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .escape-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .escape-meta { font-size: 14px; color: var(--text-soft); margin-bottom: 8px; }
+  .escape-card p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+
+  /* Builder grid */
+  .builder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .builder-card { background: var(--cream-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; cursor: pointer; transition: all 0.25s; position: relative; }
+  .builder-card:hover { border-color: var(--gold-dim); box-shadow: var(--shadow-sm); }
+  .builder-card.selected { border-color: var(--gold); background: oklch(0.94 0.04 82 / 0.18); box-shadow: 0 0 0 2px oklch(0.68 0.14 78 / 0.18); }
+  .builder-card.dimmed { opacity: 0.38; pointer-events: none; }
+  .builder-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .builder-card .spot-zh { font-size: 12px; color: var(--text-muted); }
+  .builder-card .spot-meta { font-size: 12px; color: var(--text-soft); margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .builder-card .spot-cost { color: var(--terracotta); font-weight: 500; }
+  .builder-card .check-mark { position: absolute; top: 14px; right: 16px; font-size: 18px; color: var(--gold); opacity: 0; transform: scale(0.5); transition: all 0.25s ease; }
+  .builder-card.selected .check-mark { opacity: 1; transform: scale(1); }
+
+  .builder-rules { background: var(--cream-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 28px; margin-bottom: 24px; }
+  .builder-rules h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .builder-rules p { font-size: 13px; color: var(--text-soft); }
+
+  /* Custom request */
+  .custom-request { background: oklch(0.94 0.012 82 / 0.5); border: 2px dashed var(--border); border-radius: var(--radius); padding: 28px 32px; text-align: center; margin-top: 32px; }
+  .custom-request h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .custom-request p { color: var(--text-soft); font-size: 14px; margin-bottom: 12px; }
+
+  /* People selector */
+  .people-section { max-width: 700px; margin: 56px auto 0; padding: 0 24px; }
+  .people-section h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .people-section .people-sub { text-align: center; color: var(--text-soft); font-size: 14px; margin-bottom: 24px; }
+  .people-options { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .people-btn { width: 68px; height: 68px; border-radius: 999px; border: 2px solid var(--border); background: var(--cream-card); cursor: pointer; font-size: 20px; font-weight: 600; color: var(--text-soft); transition: all 0.25s; }
+  .people-btn:hover { border-color: var(--gold-dim); color: var(--text); }
+  .people-btn.active { border-color: var(--gold); background: oklch(0.94 0.04 82 / 0.22); color: var(--gold-deep); }
+
+  /* Auto-result card */
+  .result-card { max-width: 700px; margin: 28px auto 100px; padding: 0 24px; }
+  .result-inner { background: var(--cream-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 32px; text-align: center; }
+  .result-inner h3 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold-deep); margin-bottom: 4px; }
+  .result-inner .car-info { color: var(--text-soft); font-size: 14px; margin-bottom: 4px; }
+  .result-inner .price-note { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+
+  /* Sticky bar */
+  .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 90; background: oklch(0.98 0.003 85 / 0.95); backdrop-filter: blur(20px); box-shadow: 0 -1px 6px oklch(0.2 0.01 75 / 0.06); padding: 12px 24px; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
+  .sticky-stat { text-align: center; }
+  .sticky-stat .val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); }
+  .sticky-stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+
+  /* Progress bar (v3-style) */
+  .summary-bar-wrap { display: flex; align-items: center; gap: 12px; min-width: 160px; }
+  .summary-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .summary-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), background 0.4s; }
+  .summary-bar-fill.warn { background: oklch(0.65 0.15 55); }
+  .summary-bar-fill.over { background: var(--terracotta); }
+  .summary-bar-label { font-size: 12px; color: var(--text-muted); white-space: nowrap; min-width: 48px; text-align: right; }
+
+  .sticky-cta { padding: 10px 24px; border-radius: 999px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; background: var(--gold); color: #fff; letter-spacing: 0.02em; transition: all 0.3s; }
+
+  /* Builder summary (integrated in-page, v3-style) */
+  .builder-summary {
+    position: sticky; bottom: 80px; z-index: 50;
+    background: oklch(0.98 0.005 85 / 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius); padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+    box-shadow: var(--shadow-lg);
+    margin-top: 32px;
+    display: none;
+  }
+  .builder-summary.active { display: flex; }
+  .builder-summary .bs-stat { text-align: center; min-width: 52px; }
+  .builder-summary .bs-stat .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700; color: var(--gold-deep); line-height: 1.1;
+  }
+  .builder-summary .bs-stat .lbl {
+    font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .builder-summary .summary-bar-wrap { flex: 1; min-width: 120px; display: flex; align-items: center; gap: 12px; }
+  .builder-summary .summary-actions { display: flex; gap: 10px; align-items: center; }
+  .sticky-cta:hover { background: var(--gold-deep); }
+
+  /* Summary modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: oklch(0.15 0.01 75 / 0.55); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-card { background: var(--cream-card); border-radius: var(--radius); padding: 36px 32px; max-width: 500px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+  .modal-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 16px; text-align: center; }
+  .modal-spot-list { list-style: none; margin-bottom: 20px; }
+  .modal-spot-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 14px; display: flex; justify-content: space-between; }
+  .modal-total { text-align: center; font-weight: 700; font-size: 18px; margin-bottom: 8px; }
+  .modal-note { text-align: center; color: var(--terracotta); font-size: 14px; font-weight: 500; margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: center; }
+  .btn-close { padding: 10px 24px; border-radius: 999px; font-size: 14px; font-weight: 500; border: 1px solid var(--border); background: var(--cream); cursor: pointer; }
+
+  /* Hidden sections */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* Footer */
+  .footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+  .footer-copy { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .sticky-bar { padding: 10px 16px; gap: 8px; }
+    .sticky-stat .val { font-size: 16px; }
+    .timeline li { grid-template-columns: 90px 1fr; }
+    .people-btn { width: 52px; height: 52px; font-size: 17px; }
+    .tabs { gap: 0; }
+    .tab-btn { padding: 10px 16px; font-size: 13px; }
+    .builder-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#discover">Discover</a></li>
+      <li><a href="index.html#story">Our Story</a></li>
+      <li><a href="plan-your-day.html" class="active">Plan Your Day</a></li>
+      <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="book-now.html">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="page-hero">
+  <h1>Plan <i>Your</i> Day</h1>
+  <p>Curated routes, day trips, or build from scratch. Your Shanghai, your pace.</p>
+</section>
+
+<!-- Tabs -->
+<div class="tabs-wrap">
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" data-tab="routes" aria-selected="true">Curated Routes</button>
+    <button class="tab-btn" role="tab" data-tab="escapes" aria-selected="false">Day Trips</button>
+    <button class="tab-btn" role="tab" data-tab="builder" aria-selected="false">Build Your Own</button>
+  </div>
+  <p class="tab-desc" id="tabDesc">Three curated day plans. Pick one that matches your vibe — or swap any stop with something from the à la carte menu.</p>
+</div>
+
+<!-- Curated Routes -->
+<section class="tab-content active" id="tab-routes" aria-label="Curated routes">
+  <div class="section-inner">
+
+    <!-- Set A -->
+    <div class="route-set fade-up">
+      <div class="route-set-header">
+        <span class="route-set-badge badge-a">Set A</span>
+        <h3>Classic Shanghai</h3>
+        <p class="route-set-desc">Best for first-timers. The essential Shanghai, from tree-lined lanes to ancient gardens to the skyline.</p>
+      </div>
+      <ul class="timeline">
+        <li><span class="timeline-time">9:00 – 12:30</span><span class="timeline-what">French Concession Walk — Jing'an Temple, Wukang Road, Anfu Road, Julu/Fumin/Changle</span><span class="timeline-dur">3.5 hrs</span></li>
+        <li><span class="timeline-time">12:30 – 13:30</span><span class="timeline-what">Lunch near Jing'an / French Concession</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">13:30 – 15:30</span><span class="timeline-what">Yu Garden (豫园) — Ming Dynasty garden, rockeries, pavilions, bazaar</span><span class="timeline-dur">2 hrs</span></li>
+        <li><span class="timeline-time">15:30 – 16:30</span><span class="timeline-what">The Bund (外滩) — iconic skyline walk, timed for golden hour</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">17:00</span><span class="timeline-what">Drop-off at your dinner spot</span><span class="timeline-dur"></span></li>
+      </ul>
+      <p class="route-set-footnote">Walking level: High. On Mondays Yu Garden is closed — we will swap in Shanghai Museum or Shanghai Tower.</p>
+    </div>
+
+    <!-- Set B -->
+    <div class="route-set fade-up">
+      <div class="route-set-header">
+        <span class="route-set-badge badge-b">Set B</span>
+        <h3>Chinese Heritage</h3>
+        <p class="route-set-desc">For culture lovers. Temples, propaganda art, and a 1,700-year-old pagoda next to contemporary galleries.</p>
+      </div>
+      <ul class="timeline">
+        <li><span class="timeline-time">9:00 – 10:30</span><span class="timeline-what">Jade Buddha Temple (玉佛寺) — jade Buddha statues from Myanmar</span><span class="timeline-dur">1.5 hrs</span></li>
+        <li><span class="timeline-time">10:50 – 11:50</span><span class="timeline-what">Propaganda Poster Art Centre — original posters, 1920s to 1990s</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">12:00 – 13:00</span><span class="timeline-what">Lunch near Changning / Xuhui area</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">13:30 – 17:00</span><span class="timeline-what">Longhua Temple + West Bund — ancient pagoda + contemporary art + riverside</span><span class="timeline-dur">3.5 hrs</span></li>
+        <li><span class="timeline-time">17:30</span><span class="timeline-what">Drop-off at your dinner spot</span><span class="timeline-dur"></span></li>
+      </ul>
+      <p class="route-set-footnote">Walking level: Medium. Propaganda Poster Art Centre is on the 7th floor of an office building — we know the way.</p>
+    </div>
+
+    <!-- Set C -->
+    <div class="route-set fade-up">
+      <div class="route-set-header">
+        <span class="route-set-badge badge-c">Set C</span>
+        <h3>Easy &amp; Comfort</h3>
+        <p class="route-set-desc">Museum, design district, and the Bund — all at a relaxed pace. Great for rainy days, families, or less walking.</p>
+      </div>
+      <ul class="timeline">
+        <li><span class="timeline-time">9:00 – 11:00</span><span class="timeline-what">Shanghai Museum (上海博物馆) — world-class Chinese art, free entry, indoors</span><span class="timeline-dur">2 hrs</span></li>
+        <li><span class="timeline-time">11:30 – 13:00</span><span class="timeline-what">Columbia Circle (上生新所) + Lunch — 1920s expat club, design district</span><span class="timeline-dur">1.5 hrs</span></li>
+        <li><span class="timeline-time">13:30 – 14:30</span><span class="timeline-what">Nanjing Road West (南京西路) — historic architecture</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">14:30 – 15:30</span><span class="timeline-what">The Bund (外滩) — skyline, river breeze, photos</span><span class="timeline-dur">1 hr</span></li>
+        <li><span class="timeline-time">16:00</span><span class="timeline-what">Optional: afternoon tea at Yuangu (元古) or Peninsula Hotel</span><span class="timeline-dur"></span></li>
+      </ul>
+      <p class="route-set-footnote">Walking level: Low. If you would rather sip tea in a courtyard than pound the pavement, this is your set.</p>
+    </div>
+
+    <div class="custom-request fade-up" style="margin-top:40px;">
+      <h3>Have your own idea?</h3>
+      <p>Want to mix spots from different sets, visit somewhere not listed, or have a specific theme in mind? Tell us what you are thinking — we will plan it together and quote case by case.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Day Trips -->
+<section class="tab-content" id="tab-escapes" aria-label="Day trips">
+  <div class="section-inner">
+    <div class="escape-grid">
+      <div class="escape-card fade-up">
+        <h3>Panlong Tiandi <span style="font-size:15px;color:var(--text-muted)">蟠龙天地</span></h3>
+        <p class="escape-meta">~8 hours · ~1 hr drive · Free entry</p>
+        <p>A 1,400-year-old water town reborn. Canals, rowing boats, contemporary art, riverside dining. Metro-accessible.</p>
+      </div>
+      <div class="escape-card fade-up">
+        <h3>Zhujiajiao <span style="font-size:15px;color:var(--text-muted)">朱家角</span></h3>
+        <p class="escape-meta">~8 hours · ~1 hr drive · Boat rides extra</p>
+        <p>The classic Jiangnan water town. Stone bridges, narrow lanes, boat rides through ancient canals.</p>
+      </div>
+      <div class="escape-card fade-up">
+        <h3>Suzhou <span style="font-size:15px;color:var(--text-muted)">苏州</span></h3>
+        <p class="escape-meta">~10 hours · ~1.5 hr drive · Garden tickets extra</p>
+        <p>UNESCO gardens, Grand Canal, silk culture. A full-day immersion in classical China.</p>
+      </div>
+    </div>
+
+    <div class="custom-request fade-up" style="margin-top:40px;">
+      <h3>Have your own idea?</h3>
+      <p>Want to go somewhere else outside Shanghai? A nearby water town, a hiking trail, a specific city? Tell us and we will make it work. Custom day trips quoted case by case.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Build Your Own -->
+<section class="tab-content" id="tab-builder" aria-label="Build your own day">
+  <div class="section-inner">
+
+    <div class="builder-rules fade-up">
+      <h4>How it works</h4>
+      <p>Pick your spots. Max 5.5 hours of sightseeing (leaving room for lunch + transit). Swap freely within the same level. Not sure what works? Just ask us — we will figure out the route.</p>
+    </div>
+
+    <div class="builder-grid" id="builderGrid"></div>
+
+    <div class="builder-summary fade-up" id="builderSummary">
+      <div class="bs-stat"><div class="val" id="bsTime">0h</div><div class="lbl">Sightseeing</div></div>
+      <div class="summary-bar-wrap">
+        <div class="summary-bar"><div class="summary-bar-fill" id="bsTimeBar" style="width:0%"></div></div>
+        <span class="summary-bar-label" id="bsTimeLabel">0/5.5h</span>
+      </div>
+      <div class="bs-stat"><div class="val" id="bsSpots">0</div><div class="lbl">Spots</div></div>
+      <div class="summary-actions">
+        <button class="sticky-cta" id="bsViewSummary">View Summary</button>
+      </div>
+    </div>
+
+    <div class="custom-request fade-up">
+      <h3>Have your own idea?</h3>
+      <p>Got a specific place in mind that is not on this list? Want to combine spots in an unusual way? Tell us what you are thinking — we will plan it together.</p>
+    </div>
+  </div>
+</section>
+
+<!-- People Count -->
+<div class="people-section" id="peopleSection">
+  <h2>How many in your group?</h2>
+  <p class="people-sub">This determines your car type and price.</p>
+  <div class="people-options" id="peopleOptions">
+    <button class="people-btn" data-count="1">1</button>
+    <button class="people-btn" data-count="2">2</button>
+    <button class="people-btn active" data-count="3">3</button>
+    <button class="people-btn" data-count="4">4</button>
+    <button class="people-btn" data-count="5">5</button>
+  </div>
+  <div class="result-card" id="resultCard" style="display:none;">
+    <div class="result-inner">
+      <div class="car-info" id="carInfo"></div>
+      <h3 id="priceDisplay"></h3>
+      <p class="price-note" id="priceNote"></p>
+      <a href="book-now.html" class="sticky-cta" style="margin-top:16px;text-decoration:none;display:inline-block;">Book Now &rarr;</a>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Sticky Bar -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-stat"><div class="val" id="stickyPeople">3</div><div class="lbl">People</div></div>
+  <div class="sticky-stat"><div class="val" id="stickyCar">5-Seat</div><div class="lbl">Car</div></div>
+  <div class="sticky-stat"><div class="val" id="stickyPrice">¥2,600</div><div class="lbl">Total</div></div>
+</div>
+
+<!-- Summary Modal -->
+<div class="modal-overlay" id="summaryModal">
+  <div class="modal-card">
+    <h2>Your Day Summary</h2>
+    <ul class="modal-spot-list" id="modalSpotList"></ul>
+    <div class="modal-total" id="modalTotal"></div>
+    <div class="modal-note" id="modalNote"></div>
+    <p style="text-align:center;color:var(--text-soft);font-size:13px;margin-bottom:16px;">Happy with your plan? Ready to lock it in.<br>We'll confirm within 24 hours.</p>
+    <div class="modal-actions">
+      <a href="book-now.html" class="sticky-cta" style="text-decoration:none;">Book Now &rarr;</a>
+      <button class="sticky-cta" id="modalCopyBtn">Copy as Text</button>
+      <button class="btn-close" id="modalClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <svg class="footer-sketch" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10 Q 50 0 100 10 T 190 10" fill="none" stroke="oklch(0.68 0.14 78 / 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#discover">Discover</a>
+    <a href="index.html#story">Our Story</a>
+    <a href="plan-your-day.html">Plan Your Day</a>
+    <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="faq.html">FAQ</a>
+    <a href="book-now.html">Book Now</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Booking Terms</a>
+  </div>
+  <div style="margin-bottom:12px;font-size:13px;">
+    <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
+    <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
+    <a href="https://tiktok.com/@shanghaiunlocked5" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+    <a href="https://youtube.com/@Shanghai-Unlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">YouTube</a>
+  </div>
+  <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
+</footer>
+
+<script>
+// ========== SPOT DATA ==========
+const spots = [
+  { id:'french', name:'French Concession Walk', duration:3.5, level:'long', cost:'', zh:'法租界漫步' },
+  { id:'longhua', name:'Longhua Temple + West Bund', duration:3.5, level:'long', cost:'Temple ~¥10', zh:'龙华寺+西岸' },
+  { id:'yugarden', name:'Yu Garden', duration:2, level:'medium', cost:'¥30–40 + optional guide', zh:'豫园' },
+  { id:'museum', name:'Shanghai Museum', duration:2, level:'medium', cost:'Free', zh:'上海博物馆' },
+  { id:'tower', name:'Shanghai Tower', duration:1.5, level:'medium', cost:'~¥180', zh:'上海之巅' },
+  { id:'columbia', name:'Columbia Circle', duration:2, level:'medium', cost:'Free', zh:'上生新所' },
+  { id:'fake', name:'Fake Market', duration:1.5, level:'medium', cost:'Free entry', zh:'仿品市场' },
+  { id:'jade', name:'Jade Buddha Temple', duration:1.5, level:'medium', cost:'¥20 + optional guide', zh:'玉佛寺' },
+  { id:'poster', name:'Propaganda Poster Art Centre', duration:1.5, level:'medium', cost:'~¥20–30', zh:'宣传画艺术中心' },
+  { id:'nanjing', name:'Nanjing Rd → The Bund Walk', duration:2, level:'medium', cost:'Free', zh:'南京西路→外滩' },
+  { id:'marriage', name:'Marriage Market', duration:1.5, level:'medium', cost:'Weekends only', zh:'相亲角' }
+];
+
+const MAX_HOURS = 5.5;
+let selectedSpots = [];
+let activeTab = 'routes';
+let peopleCount = 3;
+
+// ========== PRICING ==========
+const pricing = {
+  routes: { small: 2600, large: 3000 },
+  escapes: { small: 4100, large: 4500 },
+  builder: { small: 2600, large: 3000 }
+};
+
+function getCarType(count) { return count <= 3 ? 'small' : 'large'; }
+function getCarName(count) { return count <= 3 ? '5-Seat Car' : '7-Seat Car'; }
+function getPrice() {
+  const car = getCarType(peopleCount);
+  return pricing[activeTab][car];
+}
+
+// ========== DOM REFS ==========
+const builderGrid = document.getElementById('builderGrid');
+const stickyPeople = document.getElementById('stickyPeople');
+const stickyCar = document.getElementById('stickyCar');
+const stickyPrice = document.getElementById('stickyPrice');
+const builderSummary = document.getElementById('builderSummary');
+const bsTime = document.getElementById('bsTime');
+const bsTimeBar = document.getElementById('bsTimeBar');
+const bsTimeLabel = document.getElementById('bsTimeLabel');
+const bsSpots = document.getElementById('bsSpots');
+const bsViewSummary = document.getElementById('bsViewSummary');
+const resultCard = document.getElementById('resultCard');
+const carInfo = document.getElementById('carInfo');
+const priceDisplay = document.getElementById('priceDisplay');
+const priceNote = document.getElementById('priceNote');
+const summaryModal = document.getElementById('summaryModal');
+const modalSpotList = document.getElementById('modalSpotList');
+const modalTotal = document.getElementById('modalTotal');
+const modalNote = document.getElementById('modalNote');
+
+// ========== BUILD BUILDER GRID ==========
+function buildBuilderGrid() {
+  if (!builderGrid) return;
+  builderGrid.innerHTML = '';
+  const usedHours = selectedSpots.reduce((s, id) => {
+    const sp = spots.find(x => x.id === id);
+    return s + (sp ? sp.duration : 0);
+  }, 0);
+
+  spots.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'builder-card';
+    if (selectedSpots.includes(s.id)) card.classList.add('selected');
+    card.setAttribute('role', 'checkbox');
+    card.setAttribute('aria-checked', selectedSpots.includes(s.id));
+    card.tabIndex = 0;
+
+    const remaining = MAX_HOURS - usedHours;
+    if (!selectedSpots.includes(s.id) && s.duration > remaining + 0.45) {
+      card.classList.add('dimmed');
+    }
+
+    card.innerHTML = `
+      <span class="check-mark">&#10003;</span>
+      <h4>${s.name}</h4>
+      <div class="spot-zh">${s.zh}</div>
+      <div class="spot-meta">
+        <span>${s.duration}h</span>
+        <span class="spot-cost">${s.cost || ''}</span>
+      </div>
+    `;
+
+    card.addEventListener('click', () => toggleSpot(s.id));
+    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSpot(s.id); } });
+    builderGrid.appendChild(card);
+  });
+}
+
+function toggleSpot(id) {
+  if (selectedSpots.includes(id)) {
+    selectedSpots = selectedSpots.filter(x => x !== id);
+  } else {
+    const spot = spots.find(x => x.id === id);
+    const used = selectedSpots.reduce((s, i) => { const sp = spots.find(x => x.id === i); return s + (sp ? sp.duration : 0); }, 0);
+    if (spot && used + spot.duration <= MAX_HOURS + 0.1) {
+      selectedSpots.push(id);
+    }
+  }
+  buildBuilderGrid();
+  updateStickyBar();
+}
+
+// ========== TAB SWITCHING ==========
+const tabDescs = {
+  routes: 'Three curated day plans. Pick one that matches your vibe — or swap any stop with something from the à la carte menu.',
+  escapes: 'Full-day escapes from Shanghai. Water towns, UNESCO gardens, ancient canals. Private car included, about 8 to 10 hours round trip.',
+  builder: 'Pick your spots and build your own route. Max 5.5 hours of sightseeing. Mix and match freely — we will figure out the route.'
+};
+const tabDescEl = document.getElementById('tabDesc');
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    activeTab = btn.dataset.tab;
+    tabDescEl.textContent = tabDescs[activeTab] || '';
+    selectedSpots = [];
+    if (activeTab === 'builder') buildBuilderGrid();
+    updateStickyBar();
+  });
+});
+
+// ========== PEOPLE SELECTOR ==========
+document.querySelectorAll('.people-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.people-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    peopleCount = parseInt(btn.dataset.count);
+    updateStickyBar();
+  });
+});
+
+// ========== UPDATE STICKY BAR ==========
+function updateStickyBar() {
+  const price = getPrice();
+  const carName = getCarName(peopleCount);
+  stickyPeople.textContent = peopleCount;
+  stickyCar.textContent = carName;
+  stickyPrice.textContent = '¥' + price.toLocaleString();
+
+  // Builder summary (in-page, for builder tab only — v3 integrated style)
+  if (builderSummary) {
+    if (activeTab === 'builder') {
+      builderSummary.classList.add('active');
+      const used = selectedSpots.reduce((s, id) => { const sp = spots.find(x => x.id === id); return s + (sp ? sp.duration : 0); }, 0);
+      const pct = Math.min(100, (used / MAX_HOURS) * 100);
+      bsTime.textContent = used.toFixed(1) + 'h';
+      bsTimeBar.style.width = pct + '%';
+      bsTimeBar.classList.remove('warn', 'over');
+      if (pct > 95) bsTimeBar.classList.add('over');
+      else if (pct > 80) bsTimeBar.classList.add('warn');
+      bsTimeLabel.textContent = used.toFixed(1) + '/' + MAX_HOURS + 'h';
+      bsSpots.textContent = selectedSpots.length;
+    } else {
+      builderSummary.classList.remove('active');
+    }
+  }
+
+  // Update result card
+  if (resultCard) {
+    resultCard.style.display = 'block';
+    carInfo.textContent = carName + (activeTab === 'escapes' ? ' · Includes highway tolls' : '');
+    priceDisplay.textContent = '¥' + price.toLocaleString();
+    priceNote.textContent = activeTab === 'escapes'
+      ? 'Includes private car + driver + companion. Meals on us. Your lunch and attraction tickets at your own expense.'
+      : 'Includes private car + driver + companion. Meals on us. Attraction tickets and optional guide fees at your own expense.';
+  }
+}
+
+// ========== MODAL ==========
+function openModal() {
+  modalSpotList.innerHTML = '';
+  let totalCost = 0;
+
+  if (activeTab === 'builder') {
+    const picked = selectedSpots.map(id => spots.find(x => x.id === id)).filter(Boolean);
+    picked.forEach(s => {
+      const li = document.createElement('li');
+      li.innerHTML = '<span>' + s.name + ' (' + s.zh + ')</span><span>' + s.duration + 'h ' + (s.cost || '') + '</span>';
+      modalSpotList.appendChild(li);
+    });
+    const used = picked.reduce((s, sp) => s + sp.duration, 0);
+    modalTotal.textContent = used.toFixed(1) + ' hours · ' + getCarName(peopleCount) + ' · ¥' + getPrice().toLocaleString();
+  } else if (activeTab === 'routes') {
+    const li = document.createElement('li');
+    li.textContent = 'Curated Route Set';
+    modalSpotList.appendChild(li);
+    modalTotal.textContent = getCarName(peopleCount) + ' · ¥' + getPrice().toLocaleString();
+  } else {
+    const li = document.createElement('li');
+    li.textContent = 'Day Trip';
+    modalSpotList.appendChild(li);
+    modalTotal.textContent = getCarName(peopleCount) + ' · ¥' + getPrice().toLocaleString();
+  }
+
+  modalNote.textContent = 'Overtime ¥300/hr. Holiday surcharge +¥500.';
+  summaryModal.classList.add('open');
+}
+
+bsViewSummary.addEventListener('click', openModal);
+
+document.getElementById('modalClose').addEventListener('click', () => summaryModal.classList.remove('open'));
+summaryModal.addEventListener('click', (e) => { if (e.target === summaryModal) summaryModal.classList.remove('open'); });
+
+document.getElementById('modalCopyBtn').addEventListener('click', () => {
+  let text = 'My Shanghai Unlocked Day:\n';
+  if (activeTab === 'builder') {
+    const picked = selectedSpots.map(id => spots.find(x => x.id === id)).filter(Boolean);
+    picked.forEach(s => { text += '- ' + s.name + ' (' + s.duration + 'h)\n'; });
+    text += '\n';
+  } else if (activeTab === 'routes') {
+    text += '- Curated Route Set\n\n';
+  } else {
+    text += '- Day Trip\n\n';
+  }
+  text += getCarName(peopleCount) + ' · ' + peopleCount + ' people · ¥' + getPrice().toLocaleString();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('modalCopyBtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy as Text'; }, 2000);
+  });
+});
+
+// ========== NAV ==========
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+document.querySelector('.nav-toggle').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
+// ========== INTERSECTION OBSERVER ==========
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ========== INIT ==========
+updateStickyBar();
+</script>
+</body>
+</html>

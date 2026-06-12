@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Terms — Shanghai Unlocked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       oklch(0.97 0.005 85);
+    --cream-card:  oklch(0.99 0.003 85);
+    --gold:        oklch(0.68 0.14 78);
+    --gold-deep:   oklch(0.60 0.13 75);
+    --gold-dim:    oklch(0.72 0.08 72);
+    --terracotta:  oklch(0.55 0.16 35);
+    --jade:        oklch(0.58 0.09 185);
+    --text:        oklch(0.25 0.02 75);
+    --text-soft:   oklch(0.42 0.01 75);
+    --text-muted:  oklch(0.56 0.01 75);
+    --border:      oklch(0.88 0.01 80);
+    --border-gold: oklch(0.78 0.10 78);
+    --shadow-sm:   0 1px 4px oklch(0.2 0.01 75 / 0.04);
+    --shadow-md:   0 4px 24px oklch(0.2 0.01 75 / 0.07);
+    --radius:      12px;
+    --radius-sm:   6px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 24px; z-index: 200;
+    background: var(--gold-deep); color: #fff; padding: 8px 16px;
+    border-radius: var(--radius-sm); font-weight: 500;
+  }
+  .skip-link:focus { top: 12px; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; transition: all 0.35s ease; }
+  .nav.scrolled { background: oklch(0.97 0.005 85 / 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav.scrolled .nav-logo { color: var(--gold-deep); }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; transition: color 0.25s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; border-radius: 1px; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+  /* Page Header */
+  .page-header { padding: 120px 24px 64px; text-align: center; background: linear-gradient(175deg, oklch(0.96 0.008 85) 0%, oklch(0.94 0.012 82) 100%); }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .page-header .effective-date { font-size: 14px; color: var(--text-muted); margin-top: 8px; }
+
+  /* Content */
+  .content-section { padding: 64px 24px 80px; }
+  .content-inner { max-width: 760px; margin: 0 auto; }
+  .content-inner h2 {
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600;
+    color: var(--text); margin: 36px 0 12px; padding-top: 16px;
+  }
+  .content-inner h2:first-child { margin-top: 0; }
+  .content-inner p { font-size: 14px; color: var(--text-soft); line-height: 1.75; margin-bottom: 12px; }
+  .content-inner ul { margin: 8px 0 16px 20px; }
+  .content-inner ul li { font-size: 14px; color: var(--text-soft); line-height: 1.7; margin-bottom: 4px; }
+  .content-inner .last-updated { font-size: 12px; color: var(--text-muted); margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+  /* Footer */
+  .footer { padding: 48px 24px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-sketch { width: 180px; margin: 0 auto 24px; opacity: 0.5; display: block; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+  .footer-copy { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .content-section { padding: 40px 20px 64px; }
+    .page-header { padding: 100px 20px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shanghai Unlocked</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="plan-your-day.html">Plan Your Day</a></li>
+      <li><a href="taste-toast.html">Taste &amp; Toast</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="book-now.html">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="page-header" aria-label="Booking Terms">
+  <h1>Booking Terms</h1>
+  <p class="effective-date">Effective Date: June 4, 2026</p>
+</section>
+
+<section class="content-section" aria-label="Terms content">
+  <div class="content-inner fade-up">
+
+    <h2>1. Our Service</h2>
+    <p>Shanghai Unlocked provides a private, full-day companion experience in Shanghai. Our service includes:</p>
+    <ul>
+      <li>An English-speaking local companion for approximately 8 hours</li>
+      <li>Private car and driver for the duration of your experience</li>
+      <li>Real-time translation, navigation, and logistical support</li>
+      <li>A mobile Wi-Fi device for the day at no extra charge</li>
+      <li>A pre-arrival instructional video sent after booking confirmation</li>
+    </ul>
+    <p>Our service does <strong>not</strong> include attraction tickets, meals, or personal shopping expenses unless explicitly stated otherwise in your booking confirmation.</p>
+
+    <h2>2. Booking and Deposit</h2>
+    <p>To reserve your date, you must:</p>
+    <ul>
+      <li>Submit a booking request through our website form</li>
+      <li>Pay a non-refundable deposit of <strong>$100 USD</strong> via PayPal</li>
+      <li>Receive a written confirmation email from Shanghai Unlocked</li>
+    </ul>
+    <p>Your booking is not confirmed until we send you a confirmation email. We aim to respond to all booking requests within 24 hours.</p>
+
+    <h2>3. Payment</h2>
+    <p><strong>Deposit:</strong> $100 USD due at the time of booking to secure your date.</p>
+    <p><strong>Balance Payment:</strong> The remaining balance is due and payable at least 24 hours before your Service Date. Where agreed in writing by Shanghai Unlocked, payment may be made on the Service Date prior to the commencement of the service.</p>
+    <p><strong>Pay-on-Behalf:</strong> During your experience, your companion may cover incidental payments (such as attraction tickets or small purchases) on your behalf. All such payments must be settled in full at the end of the day, calculated on the actual RMB total paid. We provide a clear itemized summary of all pay-on-behalf transactions.</p>
+    <p><strong>Accepted payment methods:</strong> PayPal (deposit), cash (RMB or USD), Alipay, and WeChat Pay (balance and pay-on-behalf settlement).</p>
+
+    <h2>4. Cancellation and Refunds</h2>
+    <p>We understand that plans change. Our cancellation policy is as follows:</p>
+    <ul>
+      <li><strong>7 or more days before</strong> your scheduled date — full refund of deposit</li>
+      <li><strong>3 to 6 days before</strong> your scheduled date — 50% refund of deposit</li>
+      <li><strong>Less than 72 hours before</strong> your scheduled date — deposit is non-refundable</li>
+      <li><strong>No-show</strong> — full deposit forfeited</li>
+    </ul>
+    <p>If Shanghai Unlocked must cancel your booking for any reason, you will receive a full refund of your deposit and any pre-paid balance within 7 business days.</p>
+    <p>To cancel, email shanghaiunlocked@gmail.com. The cancellation effective date is the date we receive your email.</p>
+
+    <h2>5. Changes to Your Booking</h2>
+    <p>If you need to change your date, please contact us as soon as possible. We will accommodate date changes at no extra charge subject to availability. Date change requests made less than 72 hours before your scheduled date may be treated as a cancellation.</p>
+
+    <h2>6. On the Day</h2>
+    <p><strong>Duration:</strong> Your companion experience is approximately 8 hours. The start time is flexible and will be agreed upon in advance.</p>
+    <p><strong>Itinerary:</strong> The itinerary is flexible. You set the pace. Your companion will adapt the day based on weather, energy levels, and what interests you in the moment.</p>
+    <p><strong>Transport:</strong> Your private car and driver are available for the full duration of the experience. All driving is handled by a licensed, insured driver.</p>
+    <p><strong>Meals:</strong> Your companion and driver's meals are on us. Your meals and any snacks or drinks are not included in the service price.</p>
+
+    <h2>7. Liability</h2>
+    <p>Shanghai Unlocked takes every reasonable precaution to ensure your safety and enjoyment. However:</p>
+    <ul>
+      <li>Shanghai Unlocked is not liable for events beyond our reasonable control, including but not limited to: extreme weather, site closures, traffic conditions, or circumstances that make the scheduled experience impractical or unsafe</li>
+      <li>Shanghai Unlocked is not liable for any loss, damage, or theft of personal belongings during your experience</li>
+      <li>Shanghai Unlocked's total liability for any claim arising from our services is limited to the total amount paid by you for the specific booking in question</li>
+      <li>You are responsible for maintaining your own travel insurance covering medical expenses, trip cancellation, and personal property</li>
+    </ul>
+
+    <h2>8. Conduct</h2>
+    <p>We want everyone to have a great day. Shanghai Unlocked reserves the right to end the service early without refund if a client's behavior is abusive, threatening, or otherwise makes the companion or driver unsafe. This is rare, but we have a duty of care to our team.</p>
+
+    <h2>9. Intellectual Property</h2>
+    <p>Any photos or videos taken by Shanghai Unlocked during your experience may be used for our marketing and social media, unless you specifically request otherwise. We will never share identifying information without your consent.</p>
+
+    <h2>10. Governing Law</h2>
+    <p>These terms are governed by the laws of the People's Republic of China. Any disputes arising from these terms or our services shall be subject to the jurisdiction of the courts of Shanghai.</p>
+
+    <h2>11. Contact</h2>
+    <p>If you have questions about these Booking Terms, please contact us:</p>
+    <ul>
+      <li><strong>Email:</strong> shanghaiunlocked@gmail.com</li>
+      <li><strong>Instagram:</strong> @ShanghaiUnlocked</li>
+    </ul>
+
+    <p class="last-updated">Last updated: June 4, 2026 &mdash; Shanghai Unlocked</p>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+  <svg class="footer-sketch" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 10 Q 50 0 100 10 T 190 10" fill="none" stroke="oklch(0.68 0.14 78 / 0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="plan-your-day.html">Plan Your Day</a>
+    <a href="taste-toast.html">Taste &amp; Toast</a>
+    <a href="book-now.html">Book Now</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Booking Terms</a>
+  </div>
+  <div style="margin-bottom:12px;font-size:13px;color:var(--text-muted);">
+    <a href="mailto:shanghaiunlocked@gmail.com" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">shanghaiunlocked@gmail.com</a>
+    <a href="https://instagram.com/shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">Instagram</a>
+    <a href="https://tiktok.com/@shanghaiunlocked" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">TikTok</a>
+  </div>
+  <p class="footer-copy">Shanghai Unlocked &copy; 2025 — The city, with someone who knows the key.</p>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+document.querySelector('.nav-toggle').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
