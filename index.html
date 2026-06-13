@@ -191,7 +191,11 @@
     .section { padding: 72px 20px; }
     .discover { padding: 64px 20px; }
     .brand-story { padding: 64px 20px; }
-    .brand-grid { grid-template-columns: 1fr; gap: 32px; }
+    .brand-grid { display: flex; flex-direction: column; gap: 24px; }
+    .brand-grid::before { display: none; }
+    .brand-heading { order: 1; }
+    .brand-photo-wrap { order: 2; width: 100%; }
+    .brand-text { order: 3; }
     .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream-card); flex-direction: column; padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); }
     .nav-links.open { display: flex; }
     .nav-toggle { display: block; }
@@ -201,10 +205,11 @@
   .brand-story { padding: 100px 24px 88px; background: linear-gradient(180deg, var(--cream) 0%, var(--cream-card) 50%, var(--cream) 100%); }
   .brand-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; max-width: 1000px; margin: 0 auto; position: relative; }
   .brand-grid::before { content: ''; position: absolute; left: 50%; top: 10%; bottom: 10%; width: 1px; background: linear-gradient(to bottom, transparent, var(--gold-dim) 30%, var(--gold-dim) 70%, transparent); }
-  .brand-text h2 { font-family: 'Playfair Display', serif; font-size: var(--fs-h2); font-weight: 700; margin-bottom: 24px; letter-spacing: -0.01em; }
-  .brand-text h2 i { color: var(--gold); }
+  .brand-heading { grid-column: 1; grid-row: 1; font-family: 'Playfair Display', serif; font-size: var(--fs-h2); font-weight: 700; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .brand-heading i { color: var(--gold); }
+  .brand-text { grid-column: 1; grid-row: 2; }
   .brand-text p { color: var(--text-soft); font-size: var(--fs-body); line-height: 1.75; margin-bottom: 16px; }
-  .brand-photo-wrap { position: relative; }
+  .brand-photo-wrap { grid-column: 2; grid-row: 1 / span 2; position: relative; }
   .brand-photo { width: 100%; border-radius: var(--radius); overflow: hidden; position: relative; }
   .brand-photo img { width: 100%; display: block; border-radius: var(--radius); }
   .brand-caption { font-family: 'Caveat', cursive; font-size: var(--fs-eyebrow); color: var(--terracotta); text-align: center; margin-top: 14px; opacity: 0.78; }
@@ -418,8 +423,8 @@
 <section class="brand-story" id="story" aria-label="Our story">
   <div class="section-label">Who We Are</div>
   <div class="brand-grid" style="margin-top:16px;">
+    <h2 class="brand-heading fade-up">Not a tour guide.<br><i>Your local best friend.</i></h2>
     <div class="brand-text fade-up">
-      <h2>Not a tour guide.<br><i>Your local best friend.</i></h2>
       <p>We were those friends. The ones picking up visiting friends at the airport, setting up their Alipay, explaining why Google Maps doesn't work here, and ordering at restaurants where the menu has no English. We did it because we'd been there ourselves.</p>
       <p>Between us, we've studied in Bristol, London, Poland, and Israel. We've worked in Warsaw and traveled across Western and Eastern Europe. We've been the foreigner more times than we can count — relying on the kindness of locals who turned a confusing city into a place that felt possible.</p>
       <p>Over time, the friends brought friends. Every single one of them loved China — the food, the streets, the energy. But the friction was real. A lost hour here, a missed reservation there. Small things that added up to: <em>this could have been smoother.</em></p>
